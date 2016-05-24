@@ -37,6 +37,8 @@
 
 #import "TextualApplication.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation NSTableView (TXTableViewHelper)
 
 + (NSFont *)preferredGlobalTableViewFont
@@ -54,3 +56,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

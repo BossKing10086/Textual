@@ -35,28 +35,24 @@
 
  *********************************************************************** */
 
-#import "TextualApplication.h"
-
-#import <objc/runtime.h>
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation NSView (TXViewHelper)
 
-static void *internal_tx_contentViewSubviewConstraints = nil;
-
-- (NSArray *)tx_contentViewSubviewConstraints
+- (nullable TVCMainWindow *)mainWindow
 {
-	return objc_getAssociatedObject(self, internal_tx_contentViewSubviewConstraints);
-}
+	NSWindow *window = [self window];
 
-- (void)setTx_contentViewSubviewConstraints:(NSArray *)tx_contentViewSubviewConstraints
-{
-	objc_setAssociatedObject(self, internal_tx_contentViewSubviewConstraints, tx_contentViewSubviewConstraints, OBJC_ASSOCIATION_COPY_NONATOMIC);
+	if ([window isMemberOfClass:[TVCMainWindow class]] == NO) {
+		return nil;
+	}
+
+	return window;
 }
 
 - (void)attachSubview:(NSView *)subview adjustedWidthConstraint:(NSLayoutConstraint *)parentViewWidthConstraint adjustedHeightConstraint:(NSLayoutConstraint *)parentViewHeightConstraint
 {
-	/* Validate input */
-	NSParameterAssert(subview != nil);
+	NSParameterAssert(subview != nil)
 
 	/* Remove any views that may already be in place. */
 	NSArray *contentSubviews = [self subviews];
@@ -82,11 +78,6 @@ static void *internal_tx_contentViewSubviewConstraints = nil;
 		[parentViewHeightConstraint setConstant:subviewFrameHeight];
 	}
 
-	/* Remove all constraints that already exists related to margins. */
-	if (self.tx_contentViewSubviewConstraints) {
-		[self removeConstraints:self.tx_contentViewSubviewConstraints];
-	}
-
 	/* Add new constraints. */
 	NSMutableArray *constraints = [NSMutableArray array];
 
@@ -110,9 +101,26 @@ static void *internal_tx_contentViewSubviewConstraints = nil;
 								   constant:subviewFrameHeight]
 	 ];
 
-	self.tx_contentViewSubviewConstraints = constraints;
-
-	[subview addConstraints:self.tx_contentViewSubviewConstraints];
+	[subview addConstraints:constraints];
 }
 
 @end
+
+#pragma mark -
+
+@implementation NSCell (TXCellHelper)
+
+- (nullable TVCMainWindow *)mainWindow
+{
+	NSView *controlView = [self controlView];
+
+	if (controlView == nil) {
+		return nil;
+	}
+
+	return [controlView mainWindow];
+}
+
+@end
+
+NS_ASSUME_NONNULL_END

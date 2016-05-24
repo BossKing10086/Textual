@@ -30,19 +30,19 @@
 
  *********************************************************************** */
 
-#import "TextualApplication.h"
-
-#import "WebScriptObjectHelper.h"
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation WebScriptObject (TXWebScriptObjectHelper)
 
-- (id)toCommonInContext:(JSContextRef)jsContextRef
+- (nullable id)toCommonInContext:(JSContextRef)jsContextRef
 {
+	PointerIsEmptyAssertReturn(jsContextRef, nil)
+
 	JSObjectRef jsObjectRef = [self JSObject];
 
 	/* The object is useless if it is a function */
 	if (JSObjectIsFunction(jsContextRef, jsObjectRef)) {
-		LogToConsole(@"Ignoring a JSObject that is a function");
+		LogToConsole(@"Ignoring a JSObject that is a function")
 
 		return nil;
 	}
@@ -71,7 +71,7 @@
 			}
 		}
 
-		return [scriptArray copy];
+		return scriptArray;
 	}
 
 	/* If the object is an object (dictionary), then parse it as such */
@@ -82,7 +82,7 @@
 
 		NSMutableDictionary *scriptDictionary = [NSMutableDictionary dictionaryWithCapacity:(NSUInteger)objectPropertiesCount];
 
-		for (NSInteger i = 0; i < objectPropertiesCount; i++) {
+		for (NSUInteger i = 0; i < objectPropertiesCount; i++) {
 			JSStringRef propertyName = JSPropertyNameArrayGetNameAtIndex(objectProperties, i);
 
 			NSString *propertyNameCocoa = (__bridge_transfer NSString *)JSStringCopyCFString(kCFAllocatorDefault, propertyName);
@@ -102,15 +102,17 @@
 			}
 		}
 
-		return [scriptDictionary copy];
+		return scriptDictionary;
 	}
 
-	/* When all else fails, default to nil */
 	return nil;
 }
 
 + (BOOL)jsObjectIsArray:(JSObjectRef)jsObjectRef inContext:(JSContextRef)jsContextRef
 {
+	PointerIsEmptyAssertReturn(jsObjectRef, NO)
+	PointerIsEmptyAssertReturn(jsContextRef, NO)
+
 	JSObjectRef jsGlobalObjectRef = JSContextGetGlobalObject(jsContextRef);
 
 	JSStringRef arrayString = JSStringCreateWithUTF8CString("Array");
@@ -124,6 +126,9 @@
 
 + (BOOL)jsObjectIsObject:(JSObjectRef)jsObjectRef inContext:(JSContextRef)jsContextRef
 {
+	PointerIsEmptyAssertReturn(jsObjectRef, NO)
+	PointerIsEmptyAssertReturn(jsContextRef, NO)
+
 	JSObjectRef jsGlobalObjectRef = JSContextGetGlobalObject(jsContextRef);
 
 	JSStringRef objectString = JSStringCreateWithUTF8CString("Object");
@@ -136,3 +141,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END
