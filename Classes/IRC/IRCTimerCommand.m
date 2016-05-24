@@ -38,25 +38,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wincomplete-implementation"
-@implementation IRCTreeItem
-
-- (BOOL)isUnread
-{
-	return (self.treeUnreadCount > 0);
-}
-
-- (void)resetState
-{
-	self.dockUnreadCount = 0;
-
-	self.nicknameHighlightCount = 0;
-
-	self.treeUnreadCount = 0;
-}
-
+@implementation IRCTimerCommandContext
 @end
-#pragma clang diagnostic pop
 
 NS_ASSUME_NONNULL_END

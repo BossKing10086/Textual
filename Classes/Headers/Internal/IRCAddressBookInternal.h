@@ -58,6 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 @private
 	BOOL _objectInitialized;
 	NSString *_uniqueIdentifier;
+	NSDictionary *_defaults;
 }
 
 - (BOOL)isMutable;

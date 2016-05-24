@@ -5,8 +5,7 @@
                    | |  __/>  <| |_| |_| | (_| | |
                    |_|\___/_/\_\\__|\__,_|\__,_|_|
 
- Copyright (c) 2008 - 2010 Satoshi Nakagawa <psychs AT limechat DOT net>
- Copyright (c) 2010 - 2015 Codeux Software, LLC & respective contributors.
+ Copyright (c) 2010 - 2016 Codeux Software, LLC & respective contributors.
         Please see Acknowledgements.pdf for additional information.
 
  Redistribution and use in source and binary forms, with or without
@@ -36,7 +35,85 @@
 
  *********************************************************************** */
 
-#import "TextualApplication.h"
+#import "IRCHighlightLogEntryInternal.h"
 
-@implementation TLOTimerCommand
+NS_ASSUME_NONNULL_BEGIN
+
+@implementation IRCHighlightLogEntry
+
+- (id)copyWithZone:(nullable NSZone *)zone
+{
+	IRCHighlightLogEntry *object = [[IRCHighlightLogEntry allocWithZone:zone] init];
+
+	object->_renderedMessage = [self.renderedMessage copyWithZone:zone];
+	object->_timeLogged = [self.timeLogged copyWithZone:zone];
+	object->_channelId = [self.channelId copyWithZone:zone];
+	object->_lineNumber = [self.lineNumber copyWithZone:zone];
+
+	return object;
+}
+
+- (id)mutableCopyWithZone:(nullable NSZone *)zone
+{
+	IRCHighlightLogEntryMutable *object = [[IRCHighlightLogEntryMutable allocWithZone:zone] init];
+
+	[object setRenderedMessage:self.renderedMessage];
+	[object setTimeLogged:self.timeLogged];
+	[object setChannelId:self.channelId];
+	[object setLineNumber:self.lineNumber];
+
+	return object;
+}
+
+- (BOOL)isMutable
+{
+	return NO;
+}
+
 @end
+
+#pragma mark -
+
+@implementation IRCHighlightLogEntryMutable
+
+@dynamic renderedMessage;
+@dynamic timeLogged;
+@dynamic channelId;
+@dynamic lineNumber;
+
+- (BOOL)isMutable
+{
+	return YES;
+}
+
+- (void)setRenderedMessage:(NSAttributedString *)renderedMessage
+{
+	if (self->_renderedMessage != renderedMessage) {
+		self->_renderedMessage = [renderedMessage copy];
+	}
+}
+
+- (void)setChannelId:(NSString *)channelId
+{
+	if (self->_channelId != channelId) {
+		self->_channelId = [channelId copy];
+	}
+}
+
+- (void)setLineNumber:(NSString *)lineNumber
+{
+	if (self->_lineNumber != lineNumber) {
+		self->_lineNumber = [lineNumber copy];
+	}
+}
+
+- (void)setTimeLogged:(NSDate *)timeLogged
+{
+	if (self->_timeLogged != timeLogged) {
+		self->_timeLogged = [timeLogged copy];
+	}
+}
+
+@end
+
+NS_ASSUME_NONNULL_END

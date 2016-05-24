@@ -36,13 +36,75 @@
 
  *********************************************************************** */
 
-#import "TextualApplication.h"
+#import "IRCModeInfoInternal.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation IRCModeInfo
 
-+ (IRCModeInfo *)modeInfo
+- (id)copyWithZone:(nullable NSZone *)zone
 {
-	return [IRCModeInfo new];
+	IRCModeInfo *object = [[IRCModeInfo allocWithZone:zone] init];
+
+	object->_modeIsSet = self.modeIsSet;
+	object->_modeToken = [self.modeToken copyWithZone:zone];
+	object->_modeParamater = [self.modeParamater copyWithZone:zone];
+
+	return object;
+}
+
+- (id)mutableCopyWithZone:(nullable NSZone *)zone
+{
+	IRCModeInfoMutable *object = [[IRCModeInfoMutable allocWithZone:zone] init];
+
+	[object setModeIsSet:self.modeIsSet];
+	[object setModeToken:self.modeToken];
+	[object setModeParamater:self.modeParamater];
+
+	return object;
+}
+
+- (BOOL)isMutable
+{
+	return NO;
 }
 
 @end
+
+#pragma mark -
+
+@implementation IRCModeInfoMutable
+
+@dynamic modeIsSet;
+@dynamic modeToken;
+@dynamic modeParamater;
+
+- (BOOL)isMutable
+{
+	return YES;
+}
+
+- (void)setModeIsSet:(BOOL)modeIsSet
+{
+	if (self->_modeIsSet != modeIsSet) {
+		self->_modeIsSet = modeIsSet;
+	}
+}
+
+- (void)setModeToken:(NSString *)modeToken
+{
+	if (self->_modeToken != modeToken) {
+		self->_modeToken = [modeToken copy];
+	}
+}
+
+- (void)setModeParamater:(nullable NSString *)modeParamater
+{
+	if (self->_modeParamater != modeParamater) {
+		self->_modeParamater = [modeParamater copy];
+	}
+}
+
+@end
+
+NS_ASSUME_NONNULL_END

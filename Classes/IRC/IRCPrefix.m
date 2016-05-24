@@ -36,36 +36,95 @@
 
  *********************************************************************** */
 
-#import "TextualApplication.h"
+#import "IRCPrefixInternal.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation IRCPrefix
 
-- (instancetype)init
+- (id)copyWithZone:(nullable NSZone *)zone
 {
-	if ((self = [super init])) {
-		self.hostmask	= NSStringEmptyPlaceholder;
-		self.nickname	= NSStringEmptyPlaceholder;
-		self.username	= NSStringEmptyPlaceholder;
-		self.address	= NSStringEmptyPlaceholder;
-		
-		self.isServer	= NO;
-	}
+	IRCPrefix *object = [[IRCPrefix allocWithZone:zone] init];
 
-	return self;
+	object->_isServer = self.isServer;
+	object->_nickname = [self.nickname copyWithZone:zone];
+	object->_username = [self.username copyWithZone:zone];
+	object->_address = [self.address copyWithZone:zone];
+	object->_hostmask = [self.hostmask copyWithZone:zone];
+
+	return object;
 }
 
-- (id)copyWithZone:(NSZone *)zone
+- (id)mutableCopyWithZone:(nullable NSZone *)zone
 {
-	IRCPrefix *newPrefix = [IRCPrefix new];
-	
-	[newPrefix setHostmask:self.hostmask];
-	[newPrefix setNickname:self.nickname];
-	[newPrefix setUsername:self.username];
-	[newPrefix setAddress:self.address];
-	
-	[newPrefix setIsServer:self.isServer];
-	
-	return newPrefix;
+	IRCPrefixMutable *object = [[IRCPrefixMutable allocWithZone:zone] init];
+
+	[object setIsServer:self.isServer];
+	[object setNickname:self.nickname];
+	[object setUsername:self.username];
+	[object setAddress:self.address];
+	[object setHostmask:self.hostmask];
+
+	return object;
+}
+
+- (BOOL)isMutable
+{
+	return NO;
 }
 
 @end
+
+#pragma mark -
+
+@implementation IRCPrefixMutable
+
+@dynamic isServer;
+@dynamic nickname;
+@dynamic username;
+@dynamic address;
+@dynamic hostmask;
+
+- (BOOL)isMutable
+{
+	return YES;
+}
+
+- (void)setIsServer:(BOOL)isServer
+{
+	if (self->_isServer != isServer) {
+		self->_isServer = isServer;
+	}
+}
+
+- (void)setNickname:(nullable NSString *)nickname
+{
+	if (self->_nickname != nickname) {
+		self->_nickname = [nickname copy];
+	}
+}
+
+- (void)setUsername:(nullable NSString *)username
+{
+	if (self->_username != username) {
+		self->_username = [username copy];
+	}
+}
+
+- (void)setAddress:(nullable NSString *)address
+{
+	if (self->_address != address) {
+		self->_address = [address copy];
+	}
+}
+
+- (void)setHostmask:(nullable NSString *)hostmask
+{
+	if (self->_hostmask != hostmask) {
+		self->_hostmask = [hostmask copy];
+	}
+}
+
+@end
+
+NS_ASSUME_NONNULL_END

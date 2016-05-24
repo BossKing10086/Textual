@@ -41,7 +41,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface IRCSendingMessage : NSObject
-+ (NSString *)stringWithCommand:(NSString *)command arguments:(NSArray<NSString *> *)arguments;
++ (NSString *)stringWithCommand:(NSString *)command arguments:(nullable NSArray<NSString *> *)arguments;
 @end
 
 NS_ASSUME_NONNULL_END
