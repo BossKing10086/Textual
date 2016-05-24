@@ -38,26 +38,19 @@
 
 #import "TextualApplication.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface IRCChannelMode : NSObject <NSCopying>
-@property (nonatomic, weak) IRCISupportInfo *supportInfo;
+- (BOOL)modeIsDefined:(NSString *)mode;
 
-- (void)clear;
+- (nullable IRCModeInfo *)modeInfoFor:(NSString *)mode;
 
-- (NSArray *)update:(NSString *)str;
-
-- (IRCModeInfo *)modeInfoFor:(NSString *)mode;
-
-// -modeInformation returns a copy of the internal storage for this class. The objects
-// in the dictionary are the same that are maintained by the class so any direct changes
-// to any returned values will have a direct impact on everything else. 
-@property (readonly, copy) NSDictionary *modeInformation;
+@property (readonly, copy) NSDictionary<NSString *, IRCModeInfo *> *modeInformation;
 
 @property (readonly, copy) NSString *string;
-@property (readonly, copy) NSString *titleString;
-
-- (NSString *)format:(BOOL)maskK;
+@property (readonly, copy) NSString *stringWithMaskedPassword;
 
 - (NSString *)getChangeCommand:(IRCChannelMode *)mode;
-
-- (BOOL)modeIsDefined:(NSString *)mode;
 @end
+
+NS_ASSUME_NONNULL_END

@@ -38,8 +38,10 @@
 
 #import "TextualApplication.h"
 
-TEXTUAL_EXTERN NSInteger const IRCConnectionDefaultServerPort;
-TEXTUAL_EXTERN NSInteger const IRCConnectionDefaultProxyPort;
+NS_ASSUME_NONNULL_BEGIN
+
+TEXTUAL_EXTERN NSUInteger const IRCConnectionDefaultServerPort;
+TEXTUAL_EXTERN NSUInteger const IRCConnectionDefaultProxyPort;
 
 typedef NS_ENUM(NSUInteger, IRCConnectionSocketProxyType) {
 	IRCConnectionSocketNoProxyType = 0,
@@ -51,79 +53,127 @@ typedef NS_ENUM(NSUInteger, IRCConnectionSocketProxyType) {
 	IRCConnectionSocketTorBrowserType = 8
 };
 
-@interface IRCClientConfig : NSObject <NSCopying>
-@property (nonatomic, assign) BOOL autoConnect;
-@property (nonatomic, assign) BOOL autoReconnect;
-@property (nonatomic, assign) BOOL autoSleepModeDisconnect;
-@property (nonatomic, assign) BOOL autojoinWaitsForNickServ;
-@property (nonatomic, assign) BOOL connectionPrefersIPv6;
-@property (nonatomic, assign) BOOL connectionPrefersModernCiphers;
+#pragma mark -
+#pragma mark Immutable Object
+
+@interface IRCClientConfig : NSObject <NSCopying, NSMutableCopying>
+@property (readonly) BOOL autoConnect;
+@property (readonly) BOOL autoReconnect;
+@property (readonly) BOOL autoSleepModeDisconnect;
+@property (readonly) BOOL autojoinWaitsForNickServ;
+@property (readonly) BOOL connectionPrefersIPv6;
+@property (readonly) BOOL connectionPrefersModernCiphers;
 
 #if TEXTUAL_BUILT_WITH_ICLOUD_SUPPORT == 1
-@property (nonatomic, assign) BOOL excludedFromCloudSyncing;
+@property (readonly) BOOL excludedFromCloudSyncing;
 #endif
 
-@property (nonatomic, assign) BOOL hideNetworkUnavailabilityNotices;
-@property (nonatomic, assign) BOOL performDisconnectOnPongTimer;
-@property (nonatomic, assign) BOOL performDisconnectOnReachabilityChange;
-@property (nonatomic, assign) BOOL performPongTimer;
-@property (nonatomic, assign) BOOL prefersSecuredConnection;
-@property (nonatomic, assign) BOOL saslAuthenticationUsesExternalMechanism;
-@property (nonatomic, assign) BOOL sendAuthenticationRequestsToUserServ;
-@property (nonatomic, assign) BOOL sendWhoCommandRequestsToChannels;
-@property (nonatomic, assign) BOOL setInvisibleModeOnConnect;
-@property (nonatomic, assign) BOOL sidebarItemExpanded;
-@property (nonatomic, assign) BOOL validateServerCertificateChain;
-@property (nonatomic, assign) BOOL zncIgnoreConfiguredAutojoin;
-@property (nonatomic, assign) BOOL zncIgnorePlaybackNotifications;
-@property (nonatomic, assign) BOOL zncIgnoreUserNotifications;
-@property (nonatomic, assign) IRCConnectionSocketProxyType proxyType;
-@property (nonatomic, assign) NSInteger fallbackEncoding;
-@property (nonatomic, assign) NSInteger floodControlDelayTimerInterval;
-@property (nonatomic, assign) NSInteger floodControlMaximumMessages;
-@property (nonatomic, assign) NSInteger primaryEncoding;
-@property (nonatomic, assign) NSInteger proxyPort;
-@property (nonatomic, assign) NSInteger serverPort;
-@property (nonatomic, assign) NSTimeInterval lastMessageServerTime;
-@property (nonatomic, copy) NSArray *alternateNicknames;
-@property (nonatomic, copy) NSArray *channelList;
-@property (nonatomic, copy) NSArray *highlightList;
-@property (nonatomic, copy) NSArray *ignoreList;
-@property (nonatomic, copy) NSArray *loginCommands;
-@property (nonatomic, copy) NSData *identityClientSideCertificate;
-@property (nonatomic, copy) NSString *awayNickname;
-@property (nonatomic, copy) NSString *connectionName;
-@property (nonatomic, copy) NSString *itemUUID; // Unique Identifier (UUID)
-@property (nonatomic, copy) NSString *nickname;
-@property (nonatomic, copy) NSString *nicknamePassword;
-@property (nonatomic, copy) NSString *normalLeavingComment;
-@property (nonatomic, copy) NSString *proxyAddress;
-@property (nonatomic, copy) NSString *proxyPassword;
-@property (nonatomic, copy) NSString *proxyUsername;
-@property (nonatomic, copy) NSString *realName;
-@property (nonatomic, copy) NSString *serverAddress;
-@property (nonatomic, copy) NSString *serverPassword;
-@property (nonatomic, copy) NSString *sleepModeLeavingComment;
-@property (nonatomic, copy) NSString *username;
+@property (readonly) BOOL hideNetworkUnavailabilityNotices;
+@property (readonly) BOOL performDisconnectOnPongTimer;
+@property (readonly) BOOL performDisconnectOnReachabilityChange;
+@property (readonly) BOOL performPongTimer;
+@property (readonly) BOOL prefersSecuredConnection;
+@property (readonly) BOOL saslAuthenticationUsesExternalMechanism;
+@property (readonly) BOOL sendAuthenticationRequestsToUserServ;
+@property (readonly) BOOL sendWhoCommandRequestsToChannels;
+@property (readonly) BOOL setInvisibleModeOnConnect;
+@property (readonly) BOOL sidebarItemExpanded;
+@property (readonly) BOOL validateServerCertificateChain;
+@property (readonly) BOOL zncIgnoreConfiguredAutojoin;
+@property (readonly) BOOL zncIgnorePlaybackNotifications;
+@property (readonly) BOOL zncIgnoreUserNotifications;
+@property (readonly) IRCConnectionSocketProxyType proxyType;
+@property (readonly) NSStringEncoding fallbackEncoding;
+@property (readonly) NSStringEncoding primaryEncoding;
+@property (readonly) NSTimeInterval lastMessageServerTime;
+@property (readonly) NSUInteger floodControlDelayTimerInterval;
+@property (readonly) NSUInteger floodControlMaximumMessages;
+@property (readonly) uint16_t proxyPort;
+@property (readonly) uint16_t serverPort;
+@property (readonly, copy) NSString *connectionName;
+@property (readonly, copy) NSString *nickname;
+@property (readonly, copy) NSString *normalLeavingComment;
+@property (readonly, copy) NSString *realName;
+@property (readonly, copy) NSString *serverAddress;
+@property (readonly, copy) NSString *sleepModeLeavingComment;
+@property (readonly, copy) NSString *uniqueIdentifier;
+@property (readonly, copy) NSString *username;
+@property (readonly, copy, nullable) NSString *awayNickname;
+@property (readonly, copy, nullable) NSString *nicknamePassword;
+@property (readonly, copy, nullable) NSString *nicknamePasswordFromKeychain;
+@property (readonly, copy, nullable) NSString *proxyAddress;
+@property (readonly, copy, nullable) NSString *proxyPassword;
+@property (readonly, copy, nullable) NSString *proxyPasswordFromKeychain;
+@property (readonly, copy, nullable) NSString *proxyUsername;
+@property (readonly, copy, nullable) NSString *serverPassword;
+@property (readonly, copy, nullable) NSString *serverPasswordFromKeychain;
+@property (readonly, copy, nullable) NSArray<IRCAddressBookEntry *> *ignoreList;
+@property (readonly, copy, nullable) NSArray<IRCChannelConfig *> *channelList;
+@property (readonly, copy, nullable) NSArray<IRCHighlightMatchCondition *> *highlightList;
+@property (readonly, copy, nullable) NSArray<NSString *> *alternateNicknames;
+@property (readonly, copy, nullable) NSArray<NSString *> *loginCommands;
+@property (readonly, copy, nullable) NSData *identityClientSideCertificate;
 
-- (id)copyWithoutPrivateMessages;
-
-- (BOOL)isEqualToClientConfiguration:(IRCClientConfig *)seed;
-
-- (instancetype)initWithDictionary:(NSDictionary *)dic;
-- (NSDictionary *)dictionaryValue;
-- (NSDictionary *)dictionaryValue:(BOOL)isCloudDictionary;
-- (void)populateDictionaryValue:(NSDictionary *)dic;
-
-- (void)destroyKeychains;
-
-@property (readonly, copy) NSString *temporaryNicknamePassword;
-@property (readonly, copy) NSString *temporaryServerPassword;
-@property (readonly, copy) NSString *temporaryProxyPassword;
-
-- (void)writeKeychainItemsToDisk;
-
-- (void)writeProxyPasswordKeychainItemToDisk;
-- (void)writeServerPasswordKeychainItemToDisk;
-- (void)writeNicknamePasswordKeychainItemToDisk;
+- (instancetype)initWithDictionary:(NSDictionary<NSString *, id> *)dic NS_DESIGNATED_INITIALIZER;
+- (NSDictionary<NSString *, id> *)dictionaryValue;
 @end
+
+#pragma mark -
+#pragma mark Mutable Object
+
+@interface IRCClientConfigMutable : IRCClientConfig
+@property (nonatomic, assign, readwrite) BOOL autoConnect;
+@property (nonatomic, assign, readwrite) BOOL autoReconnect;
+@property (nonatomic, assign, readwrite) BOOL autoSleepModeDisconnect;
+@property (nonatomic, assign, readwrite) BOOL autojoinWaitsForNickServ;
+@property (nonatomic, assign, readwrite) BOOL connectionPrefersIPv6;
+@property (nonatomic, assign, readwrite) BOOL connectionPrefersModernCiphers;
+
+#if TEXTUAL_BUILT_WITH_ICLOUD_SUPPORT == 1
+@property (nonatomic, assign, readwrite) BOOL excludedFromCloudSyncing;
+#endif
+
+@property (nonatomic, assign, readwrite) BOOL hideNetworkUnavailabilityNotices;
+@property (nonatomic, assign, readwrite) BOOL performDisconnectOnPongTimer;
+@property (nonatomic, assign, readwrite) BOOL performDisconnectOnReachabilityChange;
+@property (nonatomic, assign, readwrite) BOOL performPongTimer;
+@property (nonatomic, assign, readwrite) BOOL prefersSecuredConnection;
+@property (nonatomic, assign, readwrite) BOOL saslAuthenticationUsesExternalMechanism;
+@property (nonatomic, assign, readwrite) BOOL sendAuthenticationRequestsToUserServ;
+@property (nonatomic, assign, readwrite) BOOL sendWhoCommandRequestsToChannels;
+@property (nonatomic, assign, readwrite) BOOL setInvisibleModeOnConnect;
+@property (nonatomic, assign, readwrite) BOOL sidebarItemExpanded;
+@property (nonatomic, assign, readwrite) BOOL validateServerCertificateChain;
+@property (nonatomic, assign, readwrite) BOOL zncIgnoreConfiguredAutojoin;
+@property (nonatomic, assign, readwrite) BOOL zncIgnorePlaybackNotifications;
+@property (nonatomic, assign, readwrite) BOOL zncIgnoreUserNotifications;
+@property (nonatomic, assign, readwrite) IRCConnectionSocketProxyType proxyType;
+@property (nonatomic, assign, readwrite) NSStringEncoding fallbackEncoding;
+@property (nonatomic, assign, readwrite) NSStringEncoding primaryEncoding;
+@property (nonatomic, assign, readwrite) NSTimeInterval lastMessageServerTime;
+@property (nonatomic, assign, readwrite) NSUInteger floodControlDelayTimerInterval;
+@property (nonatomic, assign, readwrite) NSUInteger floodControlMaximumMessages;
+@property (nonatomic, assign, readwrite) uint16_t proxyPort;
+@property (nonatomic, assign, readwrite) uint16_t serverPort;
+@property (nonatomic, copy, readwrite) NSString *connectionName;
+@property (nonatomic, copy, readwrite) NSString *nickname;
+@property (nonatomic, copy, readwrite) NSString *normalLeavingComment;
+@property (nonatomic, copy, readwrite) NSString *realName;
+@property (nonatomic, copy, readwrite) NSString *serverAddress;
+@property (nonatomic, copy, readwrite) NSString *sleepModeLeavingComment;
+@property (nonatomic, copy, readwrite) NSString *username;
+@property (nonatomic, copy, nullable, readwrite) NSString *awayNickname;
+@property (nonatomic, copy, nullable, readwrite) NSString *nicknamePassword;
+@property (nonatomic, copy, nullable, readwrite) NSString *proxyAddress;
+@property (nonatomic, copy, nullable, readwrite) NSString *proxyPassword;
+@property (nonatomic, copy, nullable, readwrite) NSString *proxyUsername;
+@property (nonatomic, copy, nullable, readwrite) NSString *serverPassword;
+@property (nonatomic, copy, nullable, readwrite) NSArray<IRCAddressBookEntry *> *ignoreList;
+@property (nonatomic, copy, nullable, readwrite) NSArray<IRCChannelConfig *> *channelList;
+@property (nonatomic, copy, nullable, readwrite) NSArray<IRCHighlightMatchCondition *> *highlightList;
+@property (nonatomic, copy, nullable, readwrite) NSArray<NSString *> *alternateNicknames;
+@property (nonatomic, copy, nullable, readwrite) NSArray<NSString *> *loginCommands;
+@property (nonatomic, copy, nullable, readwrite) NSData *identityClientSideCertificate;
+@end
+
+NS_ASSUME_NONNULL_END

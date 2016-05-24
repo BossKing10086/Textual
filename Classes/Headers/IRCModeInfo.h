@@ -38,10 +38,24 @@
 
 #import "TextualApplication.h"
 
-@interface IRCModeInfo : NSObject
-@property (nonatomic, assign) BOOL modeIsSet;
-@property (nonatomic, copy) NSString *modeParamater;
-@property (nonatomic, copy) NSString *modeToken;
+NS_ASSUME_NONNULL_BEGIN
 
-+ (IRCModeInfo *)modeInfo;
+#pragma mark -
+#pragma mark Immutable Object
+
+@interface IRCModeInfo : NSObject <NSCopying, NSMutableCopying>
+@property (readonly) BOOL modeIsSet;
+@property (readonly, copy) NSString *modeToken;
+@property (readonly, copy, nullable) NSString *modeParamater;
 @end
+
+#pragma mark -
+#pragma mark Mutable Object
+
+@interface IRCModeInfoMutable : IRCModeInfo
+@property (nonatomic, assign, readwrite) BOOL modeIsSet;
+@property (nonatomic, copy, readwrite) NSString *modeToken;
+@property (nonatomic, copy, readwrite, nullable) NSString *modeParamater;
+@end
+
+NS_ASSUME_NONNULL_END

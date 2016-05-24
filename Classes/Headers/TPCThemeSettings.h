@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 #define TPCThemeSettingsLatestTemplateEngineVersion		3
 
 typedef NS_ENUM(NSUInteger, TPCThemeSettingsNicknameColorStyle) {
-	TPCThemeSettingsNicknameColorLegacyStyle,
+	TPCThemeSettingsNicknameColorLegacyStyle = 0,
 	TPCThemeSettingsNicknameColorHashHueDarkStyle,
 	TPCThemeSettingsNicknameColorHashHueLightStyle
 };

@@ -38,77 +38,42 @@
 
 #import "TextualApplication.h"
 
-TEXTUAL_EXTERN NSString * const IRCWorldControllerDefaultsStorageKey;
-TEXTUAL_EXTERN NSString * const IRCWorldControllerClientListDefaultsStorageKey; // the key within world controller maintaining the client list
+NS_ASSUME_NONNULL_BEGIN
 
-TEXTUAL_EXTERN NSString * const IRCWorldDateHasChangedNotification;
+TEXTUAL_EXTERN NSString * const IRCWorldControllerClientListDefaultsKey;
 
 TEXTUAL_EXTERN NSString * const IRCWorldClientListWasModifiedNotification;
 
-@interface IRCWorld : NSObject
-@property (nonatomic, assign) NSInteger messagesSent;
-@property (nonatomic, assign) NSInteger messagesReceived;
-@property (nonatomic, assign) TXUnsignedLongLong bandwidthIn;
-@property (nonatomic, assign) TXUnsignedLongLong bandwidthOut;
-@property (nonatomic, assign) BOOL isPopulatingSeeds;
-@property (nonatomic, copy) NSArray *clientList; // clientList as a proxy setter/getter for the internal storage.
-@property (nonatomic, assign) double textSizeMultiplier;
+TEXTUAL_EXTERN NSString * const IRCWorldDateHasChangedNotification;
 
-- (void)setupConfiguration;
-- (void)setupOtherServices;
+@interface IRCWorld : NSObject
+@property (readonly) NSUInteger messagesSent;
+@property (readonly) NSUInteger messagesReceived;
+@property (readonly) TXUnsignedLongLong bandwidthIn;
+@property (readonly) TXUnsignedLongLong bandwidthOut;
+@property (nonatomic, copy) NSArray<IRCClient *> *clientList;
+@property (readonly) NSUInteger clientCount;
 
 - (void)save;
 - (void)savePeriodically;
 
-- (NSDictionary *)dictionaryValue;
+- (nullable IRCTreeItem *)findItemWithId:(NSString *)itemId;
 
-- (void)prepareForApplicationTermination;
-
-- (void)autoConnectAfterWakeup:(BOOL)afterWakeUp;
-- (void)prepareForSleep;
-
-- (void)prepareForScreenSleep;
-- (void)awakeFomScreenSleep;
-
-- (void)preferencesChanged;
-
-- (void)reachabilityChanged:(BOOL)reachable;
-
-- (void)changeTextSize:(BOOL)bigger;
-
-- (void)markAllAsRead;
-- (void)markAllAsRead:(IRCClient *)limitedClient;
-
-- (void)reloadTheme;
-- (void)reloadTheme:(BOOL)reloadUserInterface;
-
-@property (readonly) NSInteger clientCount;
-
-- (IRCTreeItem *)findItemByTreeId:(NSString *)uid;
-- (IRCClient *)findClientById:(NSString *)uid;
-- (IRCChannel *)findChannelByClientId:(NSString *)uid channelId:(NSString *)cid;
-
-- (IRCTreeItem *)findItemFromPasteboardString:(NSString *)s;
+- (nullable IRCTreeItem *)findItemWithPasteboardString:(NSString *)string;
 - (NSString *)pasteboardStringForItem:(IRCTreeItem *)item;
 
-- (IRCClient *)createClient:(id)seed reload:(BOOL)reload;
-- (IRCChannel *)createChannel:(IRCChannelConfig *)seed client:(IRCClient *)client reload:(BOOL)reload adjust:(BOOL)adjust;
-- (IRCChannel *)createPrivateMessage:(NSString *)nickname client:(IRCClient *)client;
+- (nullable IRCClient *)findClientWithId:(NSString *)itemId;
+- (nullable IRCChannel *)findChannelWithId:(NSString *)channelId onClientWithId:(NSString *)clientId;
 
-- (TVCLogController *)createLogWithClient:(IRCClient *)client channel:(IRCChannel *)channel;
+- (IRCClient *)createClientWithConfig:(IRCClientConfig *)config;
+- (IRCChannel *)createChannelWithConfig:(IRCChannelConfig *)config onClient:(IRCClient *)client;
+- (IRCChannel *)createPrivateMessage:(NSString *)nickname onClient:(IRCClient *)client;
 
-- (void)destroyClient:(IRCClient *)u;
-- (void)destroyClient:(IRCClient *)u bySkippingCloud:(BOOL)skipCloud;
-
-- (void)destroyChannel:(IRCChannel *)c;
-- (void)destroyChannel:(IRCChannel *)c reload:(BOOL)reload;
-- (void)destroyChannel:(IRCChannel *)c reload:(BOOL)reload part:(BOOL)forcePart;
+- (void)destroyClient:(IRCClient *)client;
+- (void)destroyChannel:(IRCChannel *)channel;
 
 - (void)evaluateFunctionOnAllViews:(NSString *)function arguments:(NSArray *)arguments; // Defaults to onQueue YES
 - (void)evaluateFunctionOnAllViews:(NSString *)function arguments:(NSArray *)arguments onQueue:(BOOL)onQueue;
-
-- (void)clearContentsOfClient:(IRCClient *)u;
-- (void)clearContentsOfChannel:(IRCChannel *)c inClient:(IRCClient *)u;
-
-- (void)destroyAllEvidence; // Clears all views everywhere.
 @end
+
+NS_ASSUME_NONNULL_END

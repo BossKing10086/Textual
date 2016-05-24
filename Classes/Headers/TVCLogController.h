@@ -38,33 +38,15 @@
 
 #import "TextualApplication.h"
 
-#import "TVCLogView.h" // @protocol
+NS_ASSUME_NONNULL_BEGIN
 
 TEXTUAL_EXTERN NSString * const TVCLogControllerViewFinishedLoadingNotification;
 
-@interface TVCLogController : NSObject <TVCLogViewDelegate, TVCImageURLoaderDelegate>
-@property (nonatomic, weak) IRCClient *associatedClient;
-@property (nonatomic, weak) IRCChannel *associatedChannel;
-@property (nonatomic, strong) TVCLogView *backingView;
-@property (nonatomic, assign) BOOL isLoaded;
-@property (nonatomic, assign) BOOL viewIsEncrypted;
-@property (nonatomic, assign) NSInteger maximumLineCount;
-
-@property (assign) BOOL reloadingBacklog;
-@property (assign) BOOL reloadingHistory;
-
-@property (readonly) NSInteger numberOfLines;
-
-- (void)setUp;
-
-- (void)notifyDidBecomeVisible;
-- (void)notifyDidBecomeHidden;
-- (void)notifySelectionChanged;
-
-- (void)preferencesChanged;
-
-- (void)prepareForApplicationTermination;
-- (void)prepareForPermanentDestruction;
+@interface TVCLogController : NSObject
+@property (readonly) TVCLogView *backingView;
+@property (readonly) BOOL viewIsEncrypted;
+@property (readonly) BOOL viewIsLoaded;
+@property (readonly) NSUInteger numberOfLines;
 
 - (void)nextHighlight;
 - (void)previousHighlight;
@@ -77,10 +59,9 @@ TEXTUAL_EXTERN NSString * const TVCLogControllerViewFinishedLoadingNotification;
 - (void)moveToBottom;
 
 - (void)jumpToLine:(NSString *)lineNumber;
-- (void)jumpToLine:(NSString *)lineNumber completionHandler:(void (^)(BOOL result))completionHandler;
+- (void)jumpToLine:(NSString *)lineNumber completionHandler:(void (^ _Nullable)(BOOL result))completionHandler;
 
-@property (readonly, copy) NSString *topicValue;
-- (void)setTopic:(NSString *)topic;
+@property (nonatomic, copy, nullable) NSString *topicValue;
 
 @property (readonly) BOOL inlineImagesEnabledForView;
 
@@ -90,13 +71,10 @@ TEXTUAL_EXTERN NSString * const TVCLogControllerViewFinishedLoadingNotification;
 
 - (void)clear;
 
-- (void)reloadTheme;
-
 - (void)changeTextSize:(BOOL)bigger;
 
-- (void)print:(TVCLogLine *)logLine;
-- (void)print:(TVCLogLine *)logLine completionBlock:(void(^)(BOOL highlighted))completionBlock;
-
-- (void)evaluateFunction:(NSString *)function withArguments:(NSArray *)arguments; // Defaults to onQueue YES
-- (void)evaluateFunction:(NSString *)function withArguments:(NSArray *)arguments onQueue:(BOOL)onQueue;
+- (void)evaluateFunction:(NSString *)function withArguments:(nullable NSArray *)arguments; // Defaults to onQueue YES
+- (void)evaluateFunction:(NSString *)function withArguments:(nullable NSArray *)arguments onQueue:(BOOL)onQueue;
 @end
+
+NS_ASSUME_NONNULL_END

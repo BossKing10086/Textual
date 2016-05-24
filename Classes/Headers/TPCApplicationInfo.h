@@ -47,10 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSTimeInterval)timeIntervalSinceApplicationLaunch;
 + (NSTimeInterval)timeIntervalSinceApplicationInstall;
 
-+ (void)saveTimeIntervalSinceApplicationInstall;
-
-+ (NSInteger)applicationRunCount;
-+ (void)updateApplicationRunCount;
++ (NSUInteger)applicationRunCount;
 
 + (NSString *)applicationName;
 
@@ -61,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSString *)applicationBuildScheme;
 
-+ (NSInteger)applicationProcessID;
++ (int)applicationProcessID;
 
 + (NSDictionary<NSString *, id> *)applicationInfoPlist;
 @end

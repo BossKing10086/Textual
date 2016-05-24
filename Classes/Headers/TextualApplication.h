@@ -53,163 +53,10 @@
 	#import <CocoaExtensions/CocoaExtensions.h>
 	#import <EncryptionKit/EncryptionKit.h>
 
-	/* Class Forwarders. */
-	@class IRCAddressBookEntry;
-	@class IRCChannel;
-	@class IRCChannelConfig;
-	@class IRCChannelMode;
-	@class IRCClient;
-	@class IRCClientConfig;
-	@class IRCCommandIndex;
-	@class IRCConnection;
-	@class IRCExtras;
-	@class IRCISupportInfo;
-	@class IRCMessage;
-	@class IRCMessageBatchMessage;
-	@class IRCMessageBatchMessageContainer;
-	@class IRCModeInfo;
-	@class IRCPrefix;
-	@class IRCSendingMessage;
-	@class IRCTreeItem;
-	@class IRCUser;
-	@class IRCWorld;
-	@class TDCAboutDialog;
-	@class TDCAddressBookSheet;
-	@class TDCFileTransferDialog;
-	@class TDCFileTransferDialogRemoteAddressLookup;
-	@class TDCFileTransferDialogTableCell;
-	@class TDCFileTransferDialogTransferController;
-	@class TDCHighlightEntryMatchCondition;
-	@class TDCHighlightEntrySheet;
-	@class TDCNicknameColorSheet;
-	@class TDCPreferencesController;
-	@class TDCPreferencesSoundWrapper;
-	@class TDCProgressInformationSheet;
-	@class TDCServerChangeNicknameSheet;
-	@class TDCServerChannelListDialog;
-	@class TDCServerHighlightListSheet;
-	@class TDCServerHighlightListSheetEntry;
-	@class TDCServerPropertiesSheet;
-	@class TDCSheetBase;
-	@class TDCWelcomeSheet;
-	@class TDChannelBanListSheet;
-	@class TDChannelInviteSheet;
-	@class TDChannelModifyModesSheet;
-	@class TDChannelModifyTopicSheet;
-	@class TDChannelPropertiesSheet;
-	@class THOPluginItem;
-	@class THOPluginManager;
-	@class THOUnicodeHelper;
-	@class TLOEncryptionManager;
-	@class TLOFileLogger;
-	@class TLOGrowlController;
-	@class TLOInputHistory;
-	@class TLOInputHistoryObject;
-	@class TLOKeyEventHandler;
-	@class TLOLanguagePreferences;
-	@class TLOLinkParser;
-	@class TLONicknameCompletionStatus;
-	@class TLOpenLink;
-	@class TLOPopupPrompts;
-	@class TLOSoundPlayer;
-	@class TLOSpeechSynthesizer;
-	@class TLOTimer;
-	@class TLOTimerCommand;
-	@class TPCApplicationInfo;
-	@class TPCPathInfo;
-	@class TPCPreferences;
-	@class TPCPreferencesCloudSync;
-	@class TPCPreferencesImportExport;
-	@class TPCPreferencesUserDefaults;
-	@class TPCPreferencesUserDefaultsObjectProxy;
-	@class TPCResourceManager;
-	@class TPCResourceManagerDocumentTypeImporter;
-	@class TPCThemeController;
-	@class TPCThemeSettings;
-	@class TVCAnimatedContentNavigationOutlineView;
-	@class TVCAutoExpandingTextField;
-	@class TVCAutoExpandingTokenField;
-	@class TVCBasicTableView;
-	@class TVCDockIcon;
-	@class TVCImageURLoader;
-	@class TVCImageURLParser;
-	@class TVCInputPromptDialog;
-	@class TVCLogController;
-	@class TVCLogControllerHistoricLogFile;
-	@class TVCLogControllerOperationQueue;
-	@class TVCLogControllerOperationItem;
-	@class TVCLogLine;
-	@class TVCLogPolicy;
-	@class TVCLogRenderer;
-	@class TVCLogScriptEventSink;
-	@class TVCLogView;
-	@class TVCMainWindow;
-	@class TVCMainWindowChannelView;
-	@class TVCMainWindowLoadingScreenView;
-	@class TVCMainWindowSegmentedController;
-	@class TVCMainWindowSegmentedControllerCell;
-	@class TVCMainWindowSidebarMavericksSmoothTextField;
-	@class TVCMainWindowSidebarYosemiteSmoothTextField;
-	@class TVCMainWindowSidebarYosemtieSmoothTextFieldCell;
-	@class TVCMainWindowSplitView;
-	@class TVCMainWindowTextView;
-	@class TVCMainWindowTextViewBackground;
-	@class TVCMainWindowTextViewContentView;
-	@class TVCMainWindowTextViewMavericksUserInterace;
-	@class TVCMainWindowTextViewYosemiteUserInterace;
-	@class TVCMainWindowTitlebarAccessoryView;
-	@class TVCMainWindowTitlebarAccessoryViewController;
-	@class TVCMainWindowTitlebarAccessoryViewLockButton;
-	@class TVCMemberLisCellYosemiteTextFieldInterior;
-	@class TVCMemberList;
-	@class TVCMemberListCell;
-	@class TVCMemberListCellMavericksTextField;
-	@class TVCMemberListCellMavericksTextFieldBackingLayer;
-	@class TVCMemberListDarkYosemiteUserInterface;
-	@class TVCMemberListLightYosemiteUserInterface;
-	@class TVCMemberListMavericksDarkUserInterface;
-	@class TVCMemberListMavericksLightUserInterface;
-	@class TVCMemberListMavericksUserInterface;
-	@class TVCMemberListMavericksUserInterfaceBackground;
-	@class TVCMemberListRowCell;
-	@class TVCMemberListSharedUserInterface;
-	@class TVCMemberListUserInfoPopover;
-	@class TVCMemberListYosemiteUserInterface;
-	@class TVCQueuedCertificateTrustPanel;
-	@class TVCServerList;
-	@class TVCServerListCell;
-	@class TVCServerListCellChildItem;
-	@class TVCServerListCellGroupItem;
-	@class TVCServerListCellMavericksTextField;
-	@class TVCServerListCellMavericksTextFieldBackingLayer;
-	@class TVCServerListCellYosemiteTextFieldInterior;
-	@class TVCServerListDarkYosemiteUserInterface;
-	@class TVCServerListLightYosemiteUserInterface;
-	@class TVCServerListMavericksDarkUserInterface;
-	@class TVCServerListMavericksLightUserInterface;
-	@class TVCServerListMavericksUserInterface;
-	@class TVCServerListMavericksUserInterfaceBackground;
-	@class TVCServerListRowCell;
-	@class TVCServerListSharedUserInterface;
-	@class TVCServerListYosemiteUserInterface;
-	@class TVCTextFieldWithValueValidation;
-	@class TVCTextFieldComboBoxWithValueValidation;
-	@class TVCTextFieldComboBoxWithValueValidationCell;
-	@class TVCTextFieldWithValueValidationCell;
-	@class TVCTextViewIRCFormattingMenu;
-	@class TVCTextViewWithIRCFormatter;
-	@class TXMasterController;
-	@class TXMasterController;
-	@class TXMenuController;
-	@class TXMenuControllerMainWindowProxy;
-	@class TXSharedApplication;
-	@class TXUserInterface;
-	@class TXWindowController;
-
-	/* Static Defeinitions. */
+	/* Static Defeinitions */
 	#import "StaticDefinitions.h"
 
-	/* Import frameworks based on defines. */
+	/* Import frameworks based on defines */
 	#ifndef TEXTUAL_BUILT_INSIDE_SANDBOX
 		#define TEXTUAL_BUILT_INSIDE_SANDBOX 0
 	#endif
@@ -254,32 +101,83 @@
 		#define TEXTUAL_BUILT_WITH_FORCED_BETA_LIFESPAN 0
 	#endif
 
-	/* Protocol defenitions (see file) */
-	#import "TDCSharedProtocolDefinitions.h"
+	/* Class forwarders */
+	@class IRCAddressBookEntry;
+	@class IRCAddressBookEntryMutable;
+	@class IRCChannel;
+	@class IRCChannelConfig;
+	@class IRCChannelConfigMutable;
+	@class IRCChannelMode;
+	@class IRCClient;
+	@class IRCClientConfig;
+	@class IRCClientConfigMutable;
+	@class IRCCommandIndex;
+	@class IRCConnection;
+	@class IRCConnectionConfig;
+	@class IRCConnectionConfigMutable;
+	@class IRCHighlightLogEntry;
+	@class IRCHighlightLogEntryMutable;
+	@class IRCHighlightMatchCondition;
+	@class IRCHighlightMatchConditionMutable;
+	@class IRCISupportInfo;
+	@class IRCMessage;
+	@class IRCMessageMutable;
+	@class IRCModeInfo;
+	@class IRCModeInfoMutable;
+	@class IRCPrefix;
+	@class IRCPrefixMutable;
+	@class IRCSendingMessage;
+	@class IRCTreeItem;
+	@class IRCUser;
+	@class IRCUserMutable;
+	@class IRCWorld;
+	@class THOUnicodeHelper;
+	@class TLOGrowlController;
+	@class TLOInternetAddressLookup;
+	@class TLOKeyEventHandler;
+	@class TLOLanguagePreferences;
+	@class TLOLinkParser;
+	@class TLOPopupPrompts;
+	@class TLOSoundPlayer;
+	@class TLOTimer;
+	@class TLOpenLink;
+	@class TPCApplicationInfo;
+	@class TPCPathInfo;
+	@class TPCPreferences;
+	@class TPCPreferencesCloudSync;
+	@class TPCPreferencesImportExport;
+	@class TPCPreferencesUserDefaults;
+	@class TPCPreferencesUserDefaultsController;
+	@class TPCResourceManager;
+	@class TPCThemeController;
+	@class TPCThemeSettings;
+	@class TVCAutoExpandingTextField;
+	@class TVCAutoExpandingTokenField;
+	@class TVCBasicTableView;
+	@class TVCImageURLParser;
+	@class TVCInputPromptDialog;
+	@class TVCLogController;
+	@class TVCLogLine;
+	@class TVCLogLineMutable;
+	@class TVCLogRenderer;
+	@class TVCLogView;
+	@class TVCMainWindow;
+	@class TVCMainWindowLoadingScreenView;
+	@class TVCMainWindowSplitView;
+	@class TVCMainWindowTextView;
+	@class TVCMemberList;
+	@class TVCServerList;
+	@class TVCTextFieldComboBoxWithValueValidation;
+	@class TVCTextFieldComboBoxWithValueValidationCell;
+	@class TVCTextFieldWithValueValidation;
+	@class TVCTextFieldWithValueValidationCell;
+	@class TVCTextViewWithIRCFormatter;
+	@class TXMasterController;
+	@class TXMenuController;
+	@class TXSharedApplication;
+	@class TXUserInterface;
 
-	/* 3rd-party Extensions */
-	#import "GCDAsyncSocket.h"
-	#import "GCDAsyncSocketExtensions.h"
-	#import "GCDAsyncSocketCipherNames.h"
-	#import "GRMustacheAvailabilityMacros.h"
-	#import "GRMustache.h"
-	#import "GRMustacheConfiguration.h"
-	#import "GRMustacheContentType.h"
-	#import "GRMustacheContext.h"
-	#import "GRMustacheError.h"
-	#import "GRMustacheFilter.h"
-	#import "GRMustacheLocalizer.h"
-	#import "GRMustacheRendering.h"
-	#import "GRMustacheSafeKeyAccess.h"
-	#import "GRMustacheTag.h"
-	#import "GRMustacheTagDelegate.h"
-	#import "GRMustacheTemplate.h"
-	#import "GRMustacheTemplateRepository.h"
-	#import "GRMustacheVersion.h"
-	#import "GTMEncodeHTML.h"
-	#import "OELReachability.h"
-
-	/* IRC Controllers — Core */
+	/* Headers */
 	#import "IRC.h"
 	#import "IRCAddressBook.h"
 	#import "IRCChannel.h"
@@ -290,8 +188,9 @@
 	#import "IRCColorFormat.h"
 	#import "IRCCommandIndex.h"
 	#import "IRCConnection.h"
-	#import "IRCConnectionSocket.h"
-	#import "IRCExtras.h"
+	#import "IRCConnectionConfig.h"
+	#import "IRCHighlightLogEntry.h"
+	#import "IRCHighlightMatchCondition.h"
 	#import "IRCISupportInfo.h"
 	#import "IRCMessage.h"
 	#import "IRCModeInfo.h"
@@ -300,124 +199,62 @@
 	#import "IRCTreeItem.h"
 	#import "IRCUser.h"
 	#import "IRCWorld.h"
+
+#if TEXTUAL_BUILT_WITH_ICLOUD_SUPPORT == 1
 	#import "IRCWorldCloudExtension.h"
+#endif
 
-	/* Framework Extensions (Helpers) */
 	#import "NSColorHelper.h"
-	#import "NSObjectHelper.h"
 	#import "NSStringHelper.h"
-	#import "NSTableVIewHelper.h"
-	#import "NSViewHelper.h"
-
-	/* Dialogs */
-	#import "TDCSheetBase.h"
-	#import "TDCAboutDialog.h"
-	#import "TDCAddressBookSheet.h"
-	#import "TDCFileTransferDialog.h"
-	#import "TDCFileTransferDialogTableCell.h"
-	#import "TDCFileTransferDialogTransferController.h"
-	#import "TDCFileTransferDialogRemoteAddressLookup.h"
-	#import "TDCHighlightEntrySheet.h"
-	#import "TDCNicknameColorSheet.h"
-	#import "TDCPreferencesController.h"
-	#import "TDCPreferencesSoundWrapper.h"
-	#import "TDCServerChangeNicknameSheet.h"
-	#import "TDCServerChannelListDialog.h"
-	#import "TDCServerHighlightListSheet.h"
-	#import "TDCServerPropertiesSheet.h"
-	#import "TDCWelcomeSheet.h"
-	#import "TDChannelBanListSheet.h"
-	#import "TDChannelInviteSheet.h"
-	#import "TDChannelModifyModesSheet.h"
-	#import "TDChannelModifyTopicSheet.h"
-	#import "TDChannelPropertiesSheet.h"
-
-	/* Helpers */
 	#import "THOPluginProtocol.h"
-	#import "THOPluginItem.h"
-	#import "THOPluginManager.h"
 	#import "THOUnicodeHelper.h"
-
-	/* Library */
-	#import "TLOEncryptionManager.h"
-	#import "TLOFileLogger.h"
 	#import "TLOGrowlController.h"
-	#import "TLOInputHistory.h"
 	#import "TLOKeyEventHandler.h"
+	#import "TLOInternetAddressLookup.h"
 	#import "TLOLanguagePreferences.h"
 	#import "TLOLinkParser.h"
-	#import "TLONicknameCompletionStatus.h"
 	#import "TLOPopupPrompts.h"
 	#import "TLOSoundPlayer.h"
-	#import "TLOSpeechSynthesizer.h"
 	#import "TLOTimer.h"
-	#import "TLOTimerCommand.h"
 	#import "TLOpenLink.h"
-
-	/* Preferences */
 	#import "TPCApplicationInfo.h"
 	#import "TPCPathInfo.h"
 	#import "TPCPreferences.h"
+
+#if TEXTUAL_BUILT_WITH_ICLOUD_SUPPORT == 1
 	#import "TPCPreferencesCloudSync.h"
 	#import "TPCPreferencesCloudSyncExtension.h"
+#endif
+
 	#import "TPCPreferencesImportExport.h"
+	#import "TPCPreferencesReload.h"
 	#import "TPCPreferencesUserDefaults.h"
 	#import "TPCResourceManager.h"
 	#import "TPCThemeController.h"
 	#import "TPCThemeSettings.h"
-
-	/* View Controllers */
-	#import "TVCAnimatedContentNavigationOutlineView.h"
 	#import "TVCAutoExpandingTextField.h"
 	#import "TVCAutoExpandingTokenField.h"
-	#import "TVCDockIcon.h"
-	#import "TVCImageURLParser.h"
-	#import "TVCImageURLoader.h"
-	#import "TVCInputPromptDialog.h"
-	#import "TVCMainWindowTextView.h"
 	#import "TVCBasicTableView.h"
+	#import "TVCImageURLParser.h"
+	#import "TVCInputPromptDialog.h"
 	#import "TVCLogController.h"
-	#import "TVCLogControllerHistoricLogFile.h"
-	#import "TVCLogControllerOperationQueue.h"
 	#import "TVCLogLine.h"
-	#import "TVCLogPolicy.h"
 	#import "TVCLogRenderer.h"
-	#import "TVCLogScriptEventSink.h"
 	#import "TVCLogView.h"
 	#import "TVCMainWindow.h"
-	#import "TVCMainWindowChannelView.h"
 	#import "TVCMainWindowLoadingScreen.h"
-	#import "TVCMainWindowSegmentedControl.h"
-	#import "TVCMainWindowSidebarSmoothTextField.h"
 	#import "TVCMainWindowSplitView.h"
-	#import "TVCMainWindowTextViewMavericksUserInterace.h"
-	#import "TVCMainWindowTextViewYosemiteUserInterace.h"
-	#import "TVCMainWindowTitlebarAccessoryView.h"
-	#import "TDCProgressInformationSheet.h"
+	#import "TVCMainWindowTextView.h"
 	#import "TVCMemberList.h"
-	#import "TVCMemberListCell.h"
-	#import "TVCMemberListUserInfoPopover.h"
-	#import "TVCMemberListSharedUserInterface.h"
-	#import "TVCMemberListMavericksUserInterface.h"
-	#import "TVCMemberListYosemiteUserInterface.h"
-	#import "TVCQueuedCertificateTrustPanel.h"
 	#import "TVCServerList.h"
-	#import "TVCServerListCell.h"
-	#import "TVCServerListSharedUserInterface.h"
-	#import "TVCServerListMavericksUserInterface.h"
-	#import "TVCServerListYosemiteUserInterface.h"
-	#import "TVCTextFieldWithValueValidation.h"
 	#import "TVCTextFieldComboBoxWithValueValidation.h"
+	#import "TVCTextFieldWithValueValidation.h"
 	#import "TVCTextViewWithIRCFormatter.h"
-	#import "TVCTextFormatterMenu.h"
-
-	/* Master Controllers — Root */
 	#import "TXGlobalModels.h"
 	#import "TXMasterController.h"
 	#import "TXMenuController.h"
 	#import "TXSharedApplication.h"
 	#import "TXUserInterface.h"
-	#import "TXWindowController.h"
 #endif
 
 /* @end */

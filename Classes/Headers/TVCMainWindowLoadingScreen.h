@@ -38,10 +38,12 @@
 
 #import "TextualApplication.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface TVCMainWindowLoadingScreenView : NSBox
-- (void)popWelcomeAddServerView;
 - (void)popLoadingConfigurationView;
 - (void)popTrialExpiredView;
+- (void)popWelcomeAddServerView;
 
 @property (readonly) BOOL viewIsVisible;
 
@@ -57,3 +59,5 @@
 - (void)hideTrialExpiredView;
 - (void)hideTrialExpiredView:(BOOL)animate;
 @end
+
+NS_ASSUME_NONNULL_END

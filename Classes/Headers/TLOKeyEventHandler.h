@@ -38,6 +38,8 @@
 
 #import "TextualApplication.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 #define TXKeyReturnCode			0x24
 #define TXKeyTabCode			0x30
 #define TXKeySpacebarCode		0x31
@@ -54,12 +56,20 @@
 #define TXKeyDownArrowCode		0x7D
 #define TXKeyUpArrowCode		0x7E
 
-@interface TLOKeyEventHandler : NSObject
-@property (nonatomic, weak) id target;
+@protocol TLOKeyEventHandlerPrototype;
 
-- (void)registerSelector:(SEL)selector key:(NSInteger)code modifiers:(NSUInteger)mods;
-- (void)registerSelector:(SEL)selector character:(UniChar)c modifiers:(NSUInteger)mods;
-- (void)registerSelector:(SEL)selector characters:(NSRange)characterRange modifiers:(NSUInteger)mods;
+@interface TLOKeyEventHandler : NSObject <TLOKeyEventHandlerPrototype>
+- (instancetype)initWithTarget:(id)target NS_DESIGNATED_INITIALIZER;
 
-- (BOOL)processKeyEvent:(NSEvent *)e;
+- (BOOL)processKeyEvent:(NSEvent *)event;
 @end
+
+@protocol TLOKeyEventHandlerPrototype <NSObject>
+- (void)setKeyHandlerTarget:(id)target;
+
+- (void)registerSelector:(SEL)selector key:(NSUInteger)keyCode modifiers:(NSUInteger)modifiers;
+- (void)registerSelector:(SEL)selector character:(UniChar)character modifiers:(NSUInteger)modifiers;
+- (void)registerSelector:(SEL)selector characters:(NSRange)characterRange modifiers:(NSUInteger)modifiers;
+@end
+
+NS_ASSUME_NONNULL_END
