@@ -40,6 +40,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+#warning TODO: Remove class forward for AHHyperlinkScannerResult when class exists
+
+@class AHHyperlinkScannerResult;
+
 @interface TLOLinkParser : NSObject
 + (NSArray<AHHyperlinkScannerResult *> *)locatedLinksForString:(NSString *)string;
 

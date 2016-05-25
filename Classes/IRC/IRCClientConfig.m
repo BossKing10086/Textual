@@ -708,6 +708,8 @@ ClassWithDesignatedInitializerInitMethod
 
 @end
 
+#pragma mark -
+
 @implementation IRCClientConfigMutable
 
 @dynamic alternateNicknames;

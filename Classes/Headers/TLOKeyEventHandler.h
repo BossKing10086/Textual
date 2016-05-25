@@ -56,20 +56,18 @@ NS_ASSUME_NONNULL_BEGIN
 #define TXKeyDownArrowCode		0x7D
 #define TXKeyUpArrowCode		0x7E
 
-@protocol TLOKeyEventHandlerPrototype;
-
-@interface TLOKeyEventHandler : NSObject <TLOKeyEventHandlerPrototype>
-- (instancetype)initWithTarget:(id)target NS_DESIGNATED_INITIALIZER;
-
-- (BOOL)processKeyEvent:(NSEvent *)event;
-@end
-
 @protocol TLOKeyEventHandlerPrototype <NSObject>
 - (void)setKeyHandlerTarget:(id)target;
 
 - (void)registerSelector:(SEL)selector key:(NSUInteger)keyCode modifiers:(NSUInteger)modifiers;
 - (void)registerSelector:(SEL)selector character:(UniChar)character modifiers:(NSUInteger)modifiers;
 - (void)registerSelector:(SEL)selector characters:(NSRange)characterRange modifiers:(NSUInteger)modifiers;
+@end
+
+@interface TLOKeyEventHandler : NSObject <TLOKeyEventHandlerPrototype>
+- (instancetype)initWithTarget:(id)target NS_DESIGNATED_INITIALIZER;
+
+- (BOOL)processKeyEvent:(NSEvent *)event;
 @end
 
 NS_ASSUME_NONNULL_END

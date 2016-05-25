@@ -50,6 +50,8 @@ typedef NS_ENUM(NSUInteger, TPCThemeSettingsNicknameColorStyle) {
 	TPCThemeSettingsNicknameColorHashHueLightStyle
 };
 
+@class GRMustacheTemplate;
+
 @interface TPCThemeSettings : NSObject
 @property (readonly) BOOL invertSidebarColors;
 @property (readonly) BOOL js_postHandleEventNotifications;

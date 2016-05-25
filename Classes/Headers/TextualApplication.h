@@ -199,11 +199,6 @@
 	#import "IRCTreeItem.h"
 	#import "IRCUser.h"
 	#import "IRCWorld.h"
-
-#if TEXTUAL_BUILT_WITH_ICLOUD_SUPPORT == 1
-	#import "IRCWorldCloudExtension.h"
-#endif
-
 	#import "NSColorHelper.h"
 	#import "NSStringHelper.h"
 	#import "THOPluginProtocol.h"
