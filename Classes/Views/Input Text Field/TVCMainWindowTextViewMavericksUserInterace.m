@@ -35,48 +35,50 @@
 
  *********************************************************************** */
 
-#import "TextualApplication.h"
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation TVCMainWindowTextViewMavericksUserInterace
 
-+ (NSColor *)inputTextFieldPlaceholderTextColor
+- (NSColor *)inputTextFieldPlaceholderTextColor
 {
 	return [NSColor grayColor];
 }
 
-+ (NSColor *)inputTextFieldPrimaryTextColor
+- (NSColor *)inputTextFieldPrimaryTextColor
 {
 	return [NSColor colorWithCalibratedWhite:0.15 alpha:1.0];
 }
 
-+ (NSColor *)inputTextFieldOutlineColorForActiveWindow
+- (NSColor *)inputTextFieldOutlineColorForActiveWindow
 {
 	return [NSColor colorWithCalibratedWhite:0.0 alpha:0.42];
 }
 
-+ (NSColor *)inputTextFieldOutlineColorForInactiveWindow
+- (NSColor *)inputTextFieldOutlineColorForInactiveWindow
 {
 	return [NSColor colorWithCalibratedWhite:0.0 alpha:0.23];
 }
 
-+ (NSColor *)inputTextFieldBackgroundColor
+- (NSColor *)inputTextFieldBackgroundColor
 {
 	return [NSColor whiteColor];
 }
 
-+ (NSColor *)inputTextFieldInsideShadowColorForActiveWindow
+- (NSColor *)inputTextFieldInsideShadowColorForActiveWindow
 {
 	return [NSColor colorWithCalibratedWhite:0.88 alpha:1.0];
 }
 
-+ (NSColor *)inputTextFieldInsideShadowColorForInactiveWindow
+- (NSColor *)inputTextFieldInsideShadowColorForInactiveWindow
 {
 	return [NSColor clearColor];
 }
 
-+ (NSColor *)inputTextFieldOutsideShadowColor
+- (NSColor *)inputTextFieldOutsideShadowColor
 {
 	return [NSColor colorWithCalibratedWhite:1.0 alpha:0.70];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

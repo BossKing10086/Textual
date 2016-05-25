@@ -35,89 +35,91 @@
 
  *********************************************************************** */
 
-#import "TextualApplication.h"
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation TVCMainWindowTextViewYosemiteUserInterace
 
-+ (NSColor *)blackInputTextFieldPlaceholderTextColor
+- (NSColor *)blackInputTextFieldPlaceholderTextColor
 {
 	return [NSColor whiteColor];
 }
 
-+ (NSColor *)whiteInputTextFieldPlaceholderTextColor
+- (NSColor *)whiteInputTextFieldPlaceholderTextColor
 {
 	return [NSColor colorWithCalibratedWhite:0.15 alpha:1.0];
 }
 
-+ (NSColor *)blackInputTextFieldPrimaryTextColor
+- (NSColor *)blackInputTextFieldPrimaryTextColor
 {
 	return [NSColor colorWithCalibratedRed:0.660 green:0.660 blue:0.660 alpha:1.0];
 }
 
-+ (NSColor *)whiteInputTextFieldPrimaryTextColor
+- (NSColor *)whiteInputTextFieldPrimaryTextColor
 {
 	return [NSColor grayColor];
 }
 
-+ (NSColor *)blackInputTextFieldInsideBlackBackgroundColor
+- (NSColor *)blackInputTextFieldInsideBlackBackgroundColor
 {
 	return [NSColor colorWithCalibratedRed:0.386 green:0.386 blue:0.386 alpha:1.0];
 }
 
-+ (NSColor *)blackInputTextFieldOutsideBottomGrayShadowColorWithRetina
+- (NSColor *)blackInputTextFieldOutsideBottomGrayShadowColorWithRetina
 {
 	return [NSColor colorWithCalibratedWhite:0.0 alpha:0.15];
 }
 
-+ (NSColor *)blackInputTextFieldOutsideBottomGrayShadowColorWithoutRetina
+- (NSColor *)blackInputTextFieldOutsideBottomGrayShadowColorWithoutRetina
 {
 	return [NSColor colorWithCalibratedWhite:0.0 alpha:0.10];
 }
 
-+ (NSColor *)whiteInputTextFieldOutsideTopsideWhiteBorder
+- (NSColor *)whiteInputTextFieldOutsideTopsideWhiteBorder
 {
 	return [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
 }
 
-+ (NSColor *)whiteInputTextFieldInsideWhiteGradientStartColor
+- (NSColor *)whiteInputTextFieldInsideWhiteGradientStartColor
 {
 	return [NSColor colorWithCalibratedRed:0.992 green:0.992 blue:0.992 alpha:1.0];
 }
 
-+ (NSColor *)whiteInputTextFieldInsideWhiteGradientEndColor
+- (NSColor *)whiteInputTextFieldInsideWhiteGradientEndColor
 {
 	return [NSColor colorWithCalibratedRed:0.988 green:0.988 blue:0.988 alpha:1.0];
 }
 
-+ (NSGradient *)whiteInputTextFieldInsideWhiteGradient
+- (NSGradient *)whiteInputTextFieldInsideWhiteGradient
 {
 	return [NSGradient gradientWithStartingColor:[self whiteInputTextFieldInsideWhiteGradientStartColor]
 									 endingColor:[self whiteInputTextFieldInsideWhiteGradientEndColor]];
 }
 
-+ (NSColor *)whiteInputTextFieldOutsideBottomPrimaryGrayShadowColorWithRetina
+- (NSColor *)whiteInputTextFieldOutsideBottomPrimaryGrayShadowColorWithRetina
 {
 	return [NSColor colorWithCalibratedWhite:0.0 alpha:0.15];
 }
 
-+ (NSColor *)whiteInputTextFieldOutsideBottomSecondaryGrayShadowColorWithRetina
+- (NSColor *)whiteInputTextFieldOutsideBottomSecondaryGrayShadowColorWithRetina
 {
 	return [NSColor colorWithCalibratedWhite:0.0 alpha:0.06];
 }
 
-+ (NSColor *)whiteInputTextFieldOutsideBottomGrayShadowColorWithoutRetina
+- (NSColor *)whiteInputTextFieldOutsideBottomGrayShadowColorWithoutRetina
 {
 	return [NSColor colorWithCalibratedWhite:0.0 alpha:0.10];
 }
 
-+ (NSColor *)writersProTextFieldCursorPinkColor
+- (NSColor *)writersProTextFieldCursorPinkColor
 {
 	return [NSColor colorWithCalibratedRed:0.850 green:0.0 blue:0.431 alpha:1.0];
 }
 
-+ (NSColor *)writersProTextFieldCursorBlueColor
+- (NSColor *)writersProTextFieldCursorBlueColor
 {
 	return [NSColor colorWithCalibratedRed:0.125 green:0.517 blue:0.760 alpha:1.0];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -36,76 +36,44 @@
 
  *********************************************************************** */
 
-#import "TextualApplication.h"
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation TVCBasicTableView
 
-#pragma mark -
-#pragma mark Table View
-
-- (NSInteger)countSelectedRows
+- (void)selectItemAtIndex:(NSUInteger)index
 {
-	return [[self selectedRowIndexes] count];
-}
+	NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:index];
 
-- (NSArray *)selectedRows
-{
-    NSMutableArray *allRows = [NSMutableArray array];
-    
-    NSIndexSet *indexes = [self selectedRowIndexes];
-	
-	for (NSNumber *index in [indexes arrayFromIndexSet]) {
-		[allRows addObject:index];
-	}
-    
-    return allRows;
-}
-
-- (void)selectItemAtIndex:(NSInteger)index
-{
-	[self selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
+	[self selectRowIndexes:indexSet byExtendingSelection:NO];
 	
 	[self scrollRowToVisible:index];
 }
 
-- (void)selectRows:(NSArray *)indices
+- (void)rightMouseDown:(NSEvent *)theEvent
 {
-	[self selectRows:indices extendSelection:NO];
-}
+	/* Change selection to row clicked on */
+	NSInteger rowUnderMouse = [self rowUnderMouse];
 
-- (void)selectRows:(NSArray *)indices extendSelection:(BOOL)extend
-{
-	NSMutableIndexSet *set = [NSMutableIndexSet indexSet];
-	
-	for (NSNumber *n in indices) {
-		[set addIndex:[n integerValue]];
-	}
-	
-	[self selectRowIndexes:set byExtendingSelection:extend];
-}
-
-- (void)rightMouseDown:(NSEvent *)e
-{
-	NSPoint p = [self convertPoint:[e locationInWindow] fromView:nil];
-	
-	NSInteger i = [self rowAtPoint:p];
-	
-	if (i >= 0) {
-		if ([[self selectedRowIndexes] containsIndex:i] == NO) {
-			[self selectItemAtIndex:i];
+	if (rowUnderMouse >= 0) {
+		if ([[self selectedRowIndexes] containsIndex:rowUnderMouse] == NO) {
+			[self selectItemAtIndex:rowUnderMouse];
 		}
 	}
 	
-	[super rightMouseDown:e];
+	[super rightMouseDown:theEvent];
 }
 
 - (void)textDidEndEditing:(NSNotification *)note
 {
 	if ([self.textEditingDelegate respondsToSelector:@selector(textDidEndEditing:)]) {
 		[self.textEditingDelegate textDidEndEditing:note];
-	} else {
-		[super textDidEndEditing:note];
+
+		return;
 	}
+
+	[super textDidEndEditing:note];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

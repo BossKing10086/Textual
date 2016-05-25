@@ -36,7 +36,17 @@
 
  *********************************************************************** */
 
-#import "TextualApplication.h"
+NS_ASSUME_NONNULL_BEGIN
+
+#define _WindowSegmentedControllerDefaultWidth			150.0
+
+#define _WindowSegmentedControllerLeadingHiddenEdge		0.0
+#define _WindowSegmentedControllerLeadingVisibleEdge	10.0
+
+@interface TVCMainWindowSegmentedController ()
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *segmentedControllerLeadingConstraint;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *segmentedControllerWidthConstraint;
+@end
 
 @implementation TVCMainWindowSegmentedController
 
@@ -45,17 +55,74 @@
 	NSInteger selectedSegment = [self selectedSegment];
 
 	if (selectedSegment == 2) {
-		[menuController() showChannelIgnoreList:sender];
+		[menuController() showIgnoreList:sender];
 	}
 }
 
+- (void)updateSegmentedControllerOrigin
+{
+	if ([TPCPreferences hideMainWindowSegmentedController]) {
+		[self.segmentedControllerLeadingConstraint setConstant:_WindowSegmentedControllerLeadingHiddenEdge];
+		[self.segmentedControllerWidthConstraint setConstant:0];
+	} else {
+		[self.segmentedControllerLeadingConstraint setConstant:_WindowSegmentedControllerLeadingVisibleEdge];
+		[self.segmentedControllerWidthConstraint setConstant:_WindowSegmentedControllerDefaultWidth];
+	}
+}
+
+- (void)updateSegmentedController
+{
+	if ([TPCPreferences hideMainWindowSegmentedController]) {
+		return;
+	}
+
+	TVCMainWindow *mainWindow = [self mainWindow];
+
+	TVCMainWindowLoadingScreenView *loadingScreen = [mainWindow loadingScreen];
+
+	IRCClient *selectedClient = [mainWindow selectedClient];
+	IRCChannel *selectedChannel = [mainWindow selectedChannel];
+
+	/* Enable controller */
+	BOOL condition1 = ([worldController() clientCount] > 0);
+
+	BOOL condition2 = ([loadingScreen viewIsVisible] == NO);
+
+	[self setEnabled:(condition1 && condition2)];
+
+	// Cell 0
+	NSMenu *cell0Menu = [menuController() mainWindowSegmentedControllerCell0Menu];
+
+	[self setMenu:cell0Menu forSegment:0];
+
+	// Cell 1
+	NSMenuItem *cell1MenuItem = nil;
+
+	if (selectedChannel == nil) {
+		cell1MenuItem = [menuController() mainMenuServerMenuItem];
+	} else {
+		cell1MenuItem = [menuController() mainMenuChannelMenuItem];
+	}
+
+	[self setMenu:[cell1MenuItem submenu] forSegment:1];
+
+	// Cell 2
+	BOOL condition3 = (selectedClient && [selectedClient isConnected]);
+
+	[self setEnabled:condition3 forSegment:2];
+}
+
 @end
+
+#pragma mark -
 
 @implementation TVCMainWindowSegmentedControllerCell
 
 - (SEL)action
 {
-	if ([self menuForSegment:[self selectedSegment]] == nil) {
+	NSInteger selectedSegment = [self selectedSegment];
+
+	if ([self menuForSegment:selectedSegment] == nil) {
 		return [super action];
 	} else {
 		return nil;
@@ -63,3 +130,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

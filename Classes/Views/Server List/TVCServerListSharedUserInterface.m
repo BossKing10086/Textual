@@ -35,62 +35,83 @@
 
  *********************************************************************** */
 
-#import "TextualApplication.h"
+NS_ASSUME_NONNULL_BEGIN
+
+@interface TVCServerListSharedUserInterface ()
+@property (nonatomic, strong, readwrite) TVCServerList *serverList;
+@end
 
 @implementation TVCServerListSharedUserInterface
 
-+ (BOOL)yosemiteIsUsingVibrantDarkMode
+ClassWithDesignatedInitializerInitMethod
+
+- (instancetype)initWithServerList:(TVCServerList *)serverList
+{
+	NSParameterAssert(serverList != nil);
+
+	if ((self = [super init])) {
+		self.serverList = serverList;
+
+		return self;
+	}
+
+	return nil;
+}
+
+- (BOOL)yosemiteIsUsingVibrantDarkMode
 {
 	if ([XRSystemInformation isUsingOSXYosemiteOrLater] == NO) {
 		return NO;
+	}
+
+	NSVisualEffectView *visualEffectView = [self.serverList visualEffectView];
+	
+	NSAppearance *currentAppearance = [visualEffectView appearance];
+	
+	NSString *appearanceName = [currentAppearance name];
+	
+	if ([appearanceName isEqualToString:NSAppearanceNameVibrantDark]) {
+		return YES;
 	} else {
-		NSVisualEffectView *visualEffectView = [mainWindowServerList() visualEffectView];
-		
-		NSAppearance *currentDesign = [visualEffectView appearance];
-		
-		NSString *name = [currentDesign name];
-		
-		if ([name hasPrefix:NSAppearanceNameVibrantDark]) {
-			return YES;
-		} else {
-			return NO;
-		}
+		return NO;
 	}
 }
 
 - (void)setOutlineViewDefaultDisclosureTriangle:(NSImage *)image
 {
-	id cachedObject = [mainWindowServerList() outlineViewDefaultDisclosureTriangle];
+	id cachedObject = [self.serverList outlineViewDefaultDisclosureTriangle];
 	
 	if (cachedObject == nil) {
-		[mainWindowServerList() setOutlineViewDefaultDisclosureTriangle:image];
+		[self.serverList setOutlineViewDefaultDisclosureTriangle:image];
 	}
 }
 
 - (void)setOutlineViewAlternateDisclosureTriangle:(NSImage *)image
 {
-	id cachedObject = [mainWindowServerList() outlineViewAlternateDisclosureTriangle];
+	id cachedObject = [self.serverList outlineViewAlternateDisclosureTriangle];
 					   
 	if (cachedObject == nil) {
-		[mainWindowServerList() setOutlineViewAlternateDisclosureTriangle:image];
+		[self.serverList setOutlineViewAlternateDisclosureTriangle:image];
 	}
 }
 
 - (NSImage *)disclosureTriangleInContext:(BOOL)up selected:(BOOL)selected
 {
 	if (up) {
-		return [mainWindowServerList() outlineViewDefaultDisclosureTriangle];
+		return [self.serverList outlineViewDefaultDisclosureTriangle];
 	} else {
-		return [mainWindowServerList() outlineViewAlternateDisclosureTriangle];
+		return [self.serverList outlineViewAlternateDisclosureTriangle];
 	}
 }
 
-- (NSColor *)userConfiguredMessageCountHighlightedBadgeBackgroundColor
+- (nullable NSColor *)userConfiguredMessageCountHighlightedBadgeBackgroundColor
 {
 	return [RZUserDefaults() colorForKey:@"Server List Unread Message Count Badge Colors -> Highlight"];
 }
 
 @end
+
+#pragma mark -
 
 @implementation TVCServerListMavericksUserInterfaceBackground
 
@@ -98,16 +119,19 @@
 {
 	/* The following is specialized drawing for the normal source list
 	 background when inside a backed layer view. */
-	
+	TVCMainWindow *mainWindow = [self mainWindow];
+
+	TVCServerList *serverList = [mainWindow serverList];
+
 	NSColor *backgroundColor = nil;
 	
-	if ([mainWindow() isActiveForDrawing]) {
-		backgroundColor = [[mainWindowServerList() userInterfaceObjects] serverListBackgroundColorForActiveWindow];
+	if (mainWindow isActiveForDrawing]) {
+		backgroundColor = [[serverList userInterfaceObjects] serverListBackgroundColorForActiveWindow];
 	} else {
-		backgroundColor = [[mainWindowServerList() userInterfaceObjects] serverListBackgroundColorForInactiveWindow];
+		backgroundColor = [[serverList userInterfaceObjects] serverListBackgroundColorForInactiveWindow];
 	}
 	
-	if (backgroundColor) {
+	if ( backgroundColor) {
 		[backgroundColor set];
 		
 		NSRectFill([self bounds]);
@@ -125,6 +149,8 @@
 
 @end
 
+#pragma mark -
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wincomplete-implementation"
 @implementation TVCServerListMavericksUserInterface
@@ -133,3 +159,5 @@
 @implementation TVCServerListYosemiteUserInterface
 @end
 #pragma clang diagnostic pop
+
+NS_ASSUME_NONNULL_END

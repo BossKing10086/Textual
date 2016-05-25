@@ -35,12 +35,13 @@
 
  *********************************************************************** */
 
-#import "TextualApplication.h"
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark -
 #pragma mark OS X Mavericks
 
 @interface TVCMainWindowSidebarMavericksSmoothTextFieldBackingLayer : CALayer
+@property (nonatomic, weak) NSWindow *t_window;
 @end
 
 @implementation TVCMainWindowSidebarMavericksSmoothTextField
@@ -59,24 +60,29 @@
 {
 	id newLayer = [TVCMainWindowSidebarMavericksSmoothTextFieldBackingLayer layer];
 
-	[newLayer setContentsScale:[mainWindow() backingScaleFactor]];
+	[newLayer setT_window:[self mainWindow]];
 
 	return newLayer;
 }
 
 @end
 
+#pragma mark -
+
 @implementation TVCMainWindowSidebarMavericksSmoothTextFieldBackingLayer
 
-- (void)drawInContext:(CGContextRef)ctx
+- (CGFloat)contentsScale
 {
-	[self setContentsScale:[mainWindow() backingScaleFactor]];
+	return [[self t_window] backingScaleFactor];
+}
 
-	CGContextSetShouldAntialias(ctx, true);
-	CGContextSetShouldSmoothFonts(ctx, true);
-	CGContextSetShouldSubpixelPositionFonts(ctx, true);
+- (void)drawInContext:(CGContextRef)context
+{
+	CGContextSetShouldAntialias(context, true);
+	CGContextSetShouldSmoothFonts(context, true);
+	CGContextSetShouldSubpixelPositionFonts(context, true);
 
-	[super drawInContext:ctx];
+	[super drawInContext:context];
 }
 
 @end
@@ -89,12 +95,12 @@
 
 @implementation TVCMainWindowSidebarYosemtieSmoothTextFieldCell
 
-- (CGFloat)backingScaleFactor
+- (CGFloat)contentsScale
 {
-	return [mainWindow() backingScaleFactor];
+	return [[self mainWindow] backingScaleFactor];
 }
 
-- (NSColor *)fontSmoothingBackgroundColorForParentTableRow
+- (nullable NSColor *)fontSmoothingBackgroundColorForParentTableRow
 {
 	NSTableRowView *tableRow = [self recursivelyFindTableRowViewRelativeTo:[self controlView]];
 
@@ -104,12 +110,12 @@
 
 	if ([tableRow respondsToSelector:@selector(fontSmoothingBackgroundColor)]) {
 		return [tableRow performSelector:@selector(fontSmoothingBackgroundColor)];
-	} else {
-		return nil;
 	}
+
+	return nil;
 }
 
-- (NSTableRowView *)recursivelyFindTableRowViewRelativeTo:(NSView *)controlView
+- (nullable NSTableRowView *)recursivelyFindTableRowViewRelativeTo:(NSView *)controlView
 {
 	if ([controlView isKindOfClass:[NSTableRowView class]]) {
 		return (id)controlView;
@@ -117,11 +123,11 @@
 
 	NSView *controlViewSuperview = [controlView superview];
 
-	if (controlViewSuperview) {
-		return [self recursivelyFindTableRowViewRelativeTo:controlViewSuperview];
-	} else {
+	if (controlViewSuperview == nil) {
 		return nil;
 	}
+
+	return [self recursivelyFindTableRowViewRelativeTo:controlViewSuperview];
 }
 
 - (NSColor *)backgroundColorForFakingSubpixelAntialiasing
@@ -132,17 +138,17 @@
 
 	if ([textColor isShadeOfGray] == NO) {
 		return textColor;
-	} else {
-		NSColor *superviewSmoothingColor = [self fontSmoothingBackgroundColorForParentTableRow];
-
-		if (superviewSmoothingColor) {
-			return superviewSmoothingColor;
-		} else {
-			LogToConsole(@"*** WARNING: -fontSmoothingBackgroundColorForParentTableRow returned nil value");
-
-			return [NSColor clearColor];
-		}
 	}
+
+	NSColor *superviewSmoothingColor = [self fontSmoothingBackgroundColorForParentTableRow];
+
+	if (superviewSmoothingColor) {
+		return superviewSmoothingColor;
+	}
+
+	LogToConsole(@"*** WARNING: -fontSmoothingBackgroundColorForParentTableRow returned nil value")
+
+	return [NSColor clearColor];
 }
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
@@ -155,18 +161,18 @@
 
 	NSAttributedString *stringValue = [self attributedStringValue];
 
-	if (stringValue == nil || [stringValue length] == 0) {
+	if ([stringValue length] == 0) {
 		return;
 	}
 
 	NSColor *backgroundColor = [self backgroundColorForFakingSubpixelAntialiasing];
 
-	NSRect drawFrame = cellFrame;
+	NSRect cellFrameCopy = cellFrame;
 
-	NSInteger coreTextFrameOffset = 0;
+	CGFloat coreTextFrameOffset = 0;
 
-	NSImage *stringValueImage = [stringValue imageRepWithSize:drawFrame.size
-												  scaleFactor:[self backingScaleFactor]
+	NSImage *stringValueImage = [stringValue imageRepWithSize:cellFrameCopy.size
+												  scaleFactor:[self contentsScale]
 											  backgroundColor:backgroundColor
 										  coreTextFrameOffset:&coreTextFrameOffset];
 
@@ -174,11 +180,12 @@
 	 to the height when drawing with a height of 16 which is the height we are
 	 drawing into right now. I will eventually fix this to scale to any size, 
 	 but as long as this works for now... */
-	if (coreTextFrameOffset == 4) {
-		drawFrame.origin.y += 1;
+#warning TODO: Check whether using a double here works correctly
+	if (fabs(coreTextFrameOffset) == 4.0) {
+		cellFrameCopy.origin.y += 1;
 	}
 
-	[stringValueImage drawInRect:drawFrame
+	[stringValueImage drawInRect:cellFrameCopy
 						fromRect:NSZeroRect
 					   operation:NSCompositeSourceOver
 						fraction:1.0
@@ -187,3 +194,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END
