@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)segmentedCellClicked:(id)sender
 {
-	NSInteger selectedSegment = [self selectedSegment];
+	NSInteger selectedSegment = self.selectedSegment;
 
 	if (selectedSegment == 2) {
 		[menuController() showIgnoreList:sender];
@@ -76,22 +76,17 @@ NS_ASSUME_NONNULL_BEGIN
 		return;
 	}
 
-	TVCMainWindow *mainWindow = [self mainWindow];
+	TVCMainWindow *mainWindow = self.mainWindow;
 
-	TVCMainWindowLoadingScreenView *loadingScreen = [mainWindow loadingScreen];
-
-	IRCClient *selectedClient = [mainWindow selectedClient];
-	IRCChannel *selectedChannel = [mainWindow selectedChannel];
+	IRCClient *selectedClient = mainWindow.selectedClient;
+	IRCChannel *selectedChannel = mainWindow.selectedChannel;
 
 	/* Enable controller */
-	BOOL condition1 = ([worldController() clientCount] > 0);
-
-	BOOL condition2 = ([loadingScreen viewIsVisible] == NO);
-
-	[self setEnabled:(condition1 && condition2)];
+	[self setEnabled:(worldController().clientCount > 0 &&
+				mainWindow.loadingScreen.viewIsVisible == NO)];
 
 	// Cell 0
-	NSMenu *cell0Menu = [menuController() mainWindowSegmentedControllerCell0Menu];
+	NSMenu *cell0Menu = menuController().mainWindowSegmentedControllerCell0Menu;
 
 	[self setMenu:cell0Menu forSegment:0];
 
@@ -99,17 +94,15 @@ NS_ASSUME_NONNULL_BEGIN
 	NSMenuItem *cell1MenuItem = nil;
 
 	if (selectedChannel == nil) {
-		cell1MenuItem = [menuController() mainMenuServerMenuItem];
+		cell1MenuItem = menuController().mainMenuServerMenuItem;
 	} else {
-		cell1MenuItem = [menuController() mainMenuChannelMenuItem];
+		cell1MenuItem = menuController().mainMenuChannelMenuItem;
 	}
 
-	[self setMenu:[cell1MenuItem submenu] forSegment:1];
+	[self setMenu:cell1MenuItem.submenu forSegment:1];
 
 	// Cell 2
-	BOOL condition3 = (selectedClient && [selectedClient isConnected]);
-
-	[self setEnabled:condition3 forSegment:2];
+	[self setEnabled:(selectedClient.isConnected) forSegment:2];
 }
 
 @end
@@ -118,12 +111,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation TVCMainWindowSegmentedControllerCell
 
-- (SEL)action
+- (nullable SEL)action
 {
-	NSInteger selectedSegment = [self selectedSegment];
+	NSInteger selectedSegment = self.selectedSegment;
 
 	if ([self menuForSegment:selectedSegment] == nil) {
-		return [super action];
+		return super.action;
 	} else {
 		return nil;
 	}

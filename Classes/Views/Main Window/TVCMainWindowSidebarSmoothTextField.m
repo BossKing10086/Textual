@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark OS X Mavericks
 
 @interface TVCMainWindowSidebarMavericksSmoothTextFieldBackingLayer : CALayer
-@property (nonatomic, weak) NSWindow *t_window;
+@property (nonatomic, weak) NSWindow *t_mainWindow;
 @end
 
 @implementation TVCMainWindowSidebarMavericksSmoothTextField
@@ -58,9 +58,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (CALayer *)makeBackingLayer
 {
-	id newLayer = [TVCMainWindowSidebarMavericksSmoothTextFieldBackingLayer layer];
+	 TVCMainWindowSidebarMavericksSmoothTextFieldBackingLayer *newLayer =
+	[TVCMainWindowSidebarMavericksSmoothTextFieldBackingLayer layer];
 
-	[newLayer setT_window:[self mainWindow]];
+	newLayer.t_mainWindow = self.mainWindow;
 
 	return newLayer;
 }
@@ -73,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (CGFloat)contentsScale
 {
-	return [[self t_window] backingScaleFactor];
+	return self.t_mainWindow.backingScaleFactor;
 }
 
 - (void)drawInContext:(CGContextRef)context
@@ -97,12 +98,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (CGFloat)contentsScale
 {
-	return [[self mainWindow] backingScaleFactor];
+	return self.mainWindow.backingScaleFactor;
 }
 
 - (nullable NSColor *)fontSmoothingBackgroundColorForParentTableRow
 {
-	NSTableRowView *tableRow = [self recursivelyFindTableRowViewRelativeTo:[self controlView]];
+	NSTableRowView *tableRow = [self recursivelyFindTableRowViewRelativeTo:self.controlView];
 
 	if (tableRow == nil) {
 		return nil;
@@ -121,7 +122,7 @@ NS_ASSUME_NONNULL_BEGIN
 		return (id)controlView;
 	}
 
-	NSView *controlViewSuperview = [controlView superview];
+	NSView *controlViewSuperview = controlView.superview;
 
 	if (controlViewSuperview == nil) {
 		return nil;
@@ -132,15 +133,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSColor *)backgroundColorForFakingSubpixelAntialiasing
 {
-	NSAttributedString *stringValue = [self attributedStringValue];
+	NSAttributedString *stringValue = self.attributedStringValue;
 
 	NSColor *textColor = [stringValue attribute:NSForegroundColorAttributeName atIndex:0 effectiveRange:NULL];
 
-	if ([textColor isShadeOfGray] == NO) {
+	if (textColor.isShadeOfGray == NO) {
 		return textColor;
 	}
 
-	NSColor *superviewSmoothingColor = [self fontSmoothingBackgroundColorForParentTableRow];
+	NSColor *superviewSmoothingColor = self.fontSmoothingBackgroundColorForParentTableRow;
 
 	if (superviewSmoothingColor) {
 		return superviewSmoothingColor;
@@ -159,20 +160,20 @@ NS_ASSUME_NONNULL_BEGIN
 		return;
 	}
 
-	NSAttributedString *stringValue = [self attributedStringValue];
+	NSAttributedString *stringValue = self.attributedStringValue;
 
-	if ([stringValue length] == 0) {
+	if (stringValue.length == 0) {
 		return;
 	}
 
-	NSColor *backgroundColor = [self backgroundColorForFakingSubpixelAntialiasing];
+	NSColor *backgroundColor = self.backgroundColorForFakingSubpixelAntialiasing;
 
 	NSRect cellFrameCopy = cellFrame;
 
 	CGFloat coreTextFrameOffset = 0;
 
 	NSImage *stringValueImage = [stringValue imageRepWithSize:cellFrameCopy.size
-												  scaleFactor:[self contentsScale]
+												  scaleFactor:self.contentsScale
 											  backgroundColor:backgroundColor
 										  coreTextFrameOffset:&coreTextFrameOffset];
 

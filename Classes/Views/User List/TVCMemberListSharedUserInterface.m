@@ -35,7 +35,7 @@
 
  *********************************************************************** */
 
-NS_ASSUME_NONNULL_END
+NS_ASSUME_NONNULL_BEGIN
 
 @interface TVCMemberListSharedUserInterface ()
 @property (nonatomic, strong, readwrite) TVCMemberList *memberList;
@@ -51,7 +51,7 @@ ClassWithDesignatedInitializerInitMethod
 	NSParameterAssert(memberList != nil);
 
 	if ((self = [super init])) {
-		self.memberList = memberList;
+		self->_memberList = memberList;
 
 		return self;
 	}
@@ -65,11 +65,11 @@ ClassWithDesignatedInitializerInitMethod
 		return NO;
 	}
 
-	NSVisualEffectView *visualEffectView = [self.memberList visualEffectView];
+	NSVisualEffectView *visualEffectView = self.memberList.visualEffectView;
 
-	NSAppearance *currentAppearance = [visualEffectView appearance];
+	NSAppearance *currentAppearance = visualEffectView.appearance;
 
-	NSString *appearanceName = [currentAppearance name];
+	NSString *appearanceName = currentAppearance.name;
 
 	if ([appearanceName isEqualToString:NSAppearanceNameVibrantDark]) {
 		return YES;
@@ -91,7 +91,7 @@ ClassWithDesignatedInitializerInitMethod
 
 	NSString *key = [self keyForRetrievingCachedUserMarkBadgeWithSymbol:mark rank:rank];
 		
-	return [self.cachedUserMarkBadges objectForKey:key];
+	return self.cachedUserMarkBadges[key];
 }
 
 - (void)cacheUserMarkBadge:(NSImage *)badgeImage forSymbol:(NSString *)mark rank:(IRCUserRank)rank
@@ -233,26 +233,26 @@ ClassWithDesignatedInitializerInitMethod
 {
 	/* The following is specialized drawing for the normal source list
 	 background when inside a backed layer view. */
-	TVCMainWindow *mainWindow = [self mainWindow];
+	TVCMainWindow *mainWindow = self.mainWindow;
 
-	TVCMemberList *memberList = [mainWindow memberList];
+	TVCMemberList *memberList = mainWindow.memberList;
 
 	NSColor *backgroundColor = nil;
 	
-	if ([mainWindow isActiveForDrawing]) {
-		backgroundColor = [[memberList userInterfaceObjects] memberListBackgroundColorForActiveWindow];
+	if (mainWindow.isActiveForDrawing) {
+		backgroundColor = memberList.userInterfaceObjects.memberListBackgroundColorForActiveWindow;
 	} else {
-		backgroundColor = [[memberList userInterfaceObjects] memberListBackgroundColorForInactiveWindow];
+		backgroundColor = memberList.userInterfaceObjects.memberListBackgroundColorForInactiveWindow;
 	}
 	
 	if ( backgroundColor) {
 		[backgroundColor set];
 		
-		NSRectFill([self bounds]);
+		NSRectFill(self.bounds);
 	} else {
 		NSGradient *backgroundGradient = [NSGradient sourceListBackgroundGradientColor];
 		
-		[backgroundGradient drawInRect:[self bounds] angle:270.0];
+		[backgroundGradient drawInRect:self.bounds angle:270.0];
 	}
 }
 

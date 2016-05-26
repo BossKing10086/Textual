@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable id)toCommonInContext:(JSContextRef)jsContextRef
 {
-	PointerIsEmptyAssertReturn(jsContextRef, nil)
+	NSParameterAssert(jsContextRef != NULL);
 
 	JSObjectRef jsObjectRef = [self JSObject];
 
@@ -110,8 +110,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (BOOL)jsObjectIsArray:(JSObjectRef)jsObjectRef inContext:(JSContextRef)jsContextRef
 {
-	PointerIsEmptyAssertReturn(jsObjectRef, NO)
-	PointerIsEmptyAssertReturn(jsContextRef, NO)
+	NSParameterAssert(jsObjectRef != NULL);
+	NSParameterAssert(jsContextRef != NULL);
 
 	JSObjectRef jsGlobalObjectRef = JSContextGetGlobalObject(jsContextRef);
 
@@ -126,8 +126,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (BOOL)jsObjectIsObject:(JSObjectRef)jsObjectRef inContext:(JSContextRef)jsContextRef
 {
-	PointerIsEmptyAssertReturn(jsObjectRef, NO)
-	PointerIsEmptyAssertReturn(jsContextRef, NO)
+	NSParameterAssert(jsObjectRef != NULL);
+	NSParameterAssert(jsContextRef != NULL);
 
 	JSObjectRef jsGlobalObjectRef = JSContextGetGlobalObject(jsContextRef);
 

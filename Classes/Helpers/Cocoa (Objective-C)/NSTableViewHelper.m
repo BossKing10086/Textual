@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSInteger)rowUnderMouse
 {
-	NSPoint ml = [[self window] mouseLocationOutsideOfEventStream];
+	NSPoint ml = [self.window mouseLocationOutsideOfEventStream];
 
 	NSPoint pt = [self convertPoint:ml fromView:nil];
 

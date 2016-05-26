@@ -41,23 +41,23 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable TVCMainWindow *)mainWindow
 {
-	NSWindow *window = [self window];
+	NSWindow *window = self.window;
 
 	if ([window isMemberOfClass:[TVCMainWindow class]] == NO) {
 		return nil;
 	}
 
-	return window;
+	return (TVCMainWindow *)window;
 }
 
 - (void)attachSubview:(NSView *)subview adjustedWidthConstraint:(NSLayoutConstraint *)parentViewWidthConstraint adjustedHeightConstraint:(NSLayoutConstraint *)parentViewHeightConstraint
 {
-	NSParameterAssert(subview != nil)
+	NSParameterAssert(subview != nil);
 
 	/* Remove any views that may already be in place. */
-	NSArray *contentSubviews = [self subviews];
+	NSArray *contentSubviews = self.subviews;
 
-	if ([contentSubviews count] > 0) {
+	if (contentSubviews.count > 0) {
 		[contentSubviews[0] removeFromSuperview];
 	}
 
@@ -65,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 	/* Adjust constraints of parent view to maintain the same size
 	 of the subview that is being added. */
-	NSRect subviewFrame = [subview frame];
+	NSRect subviewFrame = subview.frame;
 
 	CGFloat subviewFrameWidth = NSWidth(subviewFrame);
 	CGFloat subviewFrameHeight = NSHeight(subviewFrame);
@@ -112,13 +112,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable TVCMainWindow *)mainWindow
 {
-	NSView *controlView = [self controlView];
-
-	if (controlView == nil) {
-		return nil;
-	}
-
-	return [controlView mainWindow];
+	return self.controlView.mainWindow;
 }
 
 @end

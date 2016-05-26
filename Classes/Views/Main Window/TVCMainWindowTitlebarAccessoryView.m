@@ -64,19 +64,19 @@ NS_ASSUME_NONNULL_BEGIN
 	 for us NSTitlebarAccessoryViewController at least monitors the frame
 	 value for its associated view which means if we manually specify the 
 	 width in its frame, then we can at least force a resize then. */
-	CGFloat buttonWidth = NSWidth([self frame]);
+	CGFloat buttonWidth = NSWidth(self.frame);
 
-	CGFloat buttonLeftMargin = [self.lockButtonLeftMarginConstraint constant];
-	CGFloat buttonRightMargin = [self.lockButtonRightMarginConstraint constant];
+	CGFloat buttonLeftMargin = self.lockButtonLeftMarginConstraint.constant;
+	CGFloat buttonRightMargin = self.lockButtonRightMarginConstraint.constant;
 
 	CGFloat totalViewWidth = (buttonLeftMargin + buttonWidth + buttonRightMargin);
 
 	if ([XRSystemInformation isUsingOSXYosemiteOrLater]) {
-		NSRect superviewFrame = [[self superview] frame];
+		NSRect superviewFrame = self.superview.frame;
 
 		superviewFrame.size.width = totalViewWidth;
 
-		[[self superview] setFrame:superviewFrame];
+		[self.superview setFrame:superviewFrame];
 
 		return;
 	}
@@ -91,26 +91,26 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)positionImageOverContent
 {
-	[[self cell] setImagePosition:NSImageOverlaps];
+	[self.cell setImagePosition:NSImageOverlaps];
 }
 
 - (void)positionImageOnLeftSide
 {
-	[[self cell] setImagePosition:NSImageLeft];
+	[self.cell setImagePosition:NSImageLeft];
 }
 
 - (void)setIconAsLocked
 {
 	NSImage *iconImage = [NSImage imageNamed:@"NSLockLockedTemplate"];
 
-	[self setImage:iconImage];
+	self.image = iconImage;
 }
 
 - (void)setIconAsUnlocked
 {
 	NSImage *iconImage = [NSImage imageNamed:@"NSLockUnlockedTemplate"];
 
-	[self setImage:iconImage];
+	self.image = iconImage;
 }
 
 - (void)disableDrawingCustomBackgroundColor
@@ -119,7 +119,7 @@ NS_ASSUME_NONNULL_BEGIN
 		return;
 	}
 
-	[[self cell] setBackgroundStyle:NSBackgroundStyleRaised];
+	[self.cell setBackgroundStyle:NSBackgroundStyleRaised];
 
 	self.drawsCustomBackgroundColor = NO;
 }
@@ -130,7 +130,7 @@ NS_ASSUME_NONNULL_BEGIN
 		return;
 	}
 
-	[[self cell] setBackgroundStyle:NSBackgroundStyleLowered];
+	[self.cell setBackgroundStyle:NSBackgroundStyleLowered];
 
 	self.drawsCustomBackgroundColor = YES;
 }
@@ -150,7 +150,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)drawInteriorOnYosemite
 {
-	if ([[self mainWindow] isActiveForDrawing]) {
+	if (self.mainWindow.isActiveForDrawing) {
 		[self drawInteriorForActiveWindowOnYosemite];
 	}
 }
@@ -159,11 +159,11 @@ NS_ASSUME_NONNULL_BEGIN
 {
 	/* On Yosemite, we get the bounds of the object and tweak it just slighly to match what
 	 it actually is. After that, we draw our color in behind it to fake the background. */
-	NSRect controllerFrame = [self bounds];
+	NSRect controllerFrame = self.bounds;
 
 	controllerFrame.size.height -= 1.0;
 
-	NSColor *controllerBackgroundColor = [self controlBackgroundColorActiveWindowOnYosemite];
+	NSColor *controllerBackgroundColor = self.controlBackgroundColorActiveWindowOnYosemite;
 
 	NSBezierPath *drawingPath = [NSBezierPath bezierPathWithRoundedRect:controllerFrame xRadius:4.0 yRadius:4.0];
 

@@ -50,7 +50,7 @@ ClassWithDesignatedInitializerInitMethod
 	NSParameterAssert(serverList != nil);
 
 	if ((self = [super init])) {
-		self.serverList = serverList;
+		self->_serverList = serverList;
 
 		return self;
 	}
@@ -64,11 +64,11 @@ ClassWithDesignatedInitializerInitMethod
 		return NO;
 	}
 
-	NSVisualEffectView *visualEffectView = [self.serverList visualEffectView];
+	NSVisualEffectView *visualEffectView = self.serverList.visualEffectView;
 	
-	NSAppearance *currentAppearance = [visualEffectView appearance];
+	NSAppearance *currentAppearance = visualEffectView.appearance;
 	
-	NSString *appearanceName = [currentAppearance name];
+	NSString *appearanceName = currentAppearance.name;
 	
 	if ([appearanceName isEqualToString:NSAppearanceNameVibrantDark]) {
 		return YES;
@@ -79,28 +79,24 @@ ClassWithDesignatedInitializerInitMethod
 
 - (void)setOutlineViewDefaultDisclosureTriangle:(NSImage *)image
 {
-	id cachedObject = [self.serverList outlineViewDefaultDisclosureTriangle];
-	
-	if (cachedObject == nil) {
-		[self.serverList setOutlineViewDefaultDisclosureTriangle:image];
+	if (self.serverList.outlineViewDefaultDisclosureTriangle == nil) {
+		self.serverList.outlineViewDefaultDisclosureTriangle = image;
 	}
 }
 
 - (void)setOutlineViewAlternateDisclosureTriangle:(NSImage *)image
 {
-	id cachedObject = [self.serverList outlineViewAlternateDisclosureTriangle];
-					   
-	if (cachedObject == nil) {
-		[self.serverList setOutlineViewAlternateDisclosureTriangle:image];
+	if (self.serverList.outlineViewAlternateDisclosureTriangle == nil) {
+		self.serverList.outlineViewAlternateDisclosureTriangle = image;
 	}
 }
 
 - (NSImage *)disclosureTriangleInContext:(BOOL)up selected:(BOOL)selected
 {
 	if (up) {
-		return [self.serverList outlineViewDefaultDisclosureTriangle];
+		return self.serverList.outlineViewDefaultDisclosureTriangle;
 	} else {
-		return [self.serverList outlineViewAlternateDisclosureTriangle];
+		return self.serverList.outlineViewAlternateDisclosureTriangle;
 	}
 }
 
@@ -119,26 +115,26 @@ ClassWithDesignatedInitializerInitMethod
 {
 	/* The following is specialized drawing for the normal source list
 	 background when inside a backed layer view. */
-	TVCMainWindow *mainWindow = [self mainWindow];
+	TVCMainWindow *mainWindow = self.mainWindow;
 
-	TVCServerList *serverList = [mainWindow serverList];
+	TVCServerList *serverList = mainWindow.serverList;
 
 	NSColor *backgroundColor = nil;
 	
-	if (mainWindow isActiveForDrawing]) {
-		backgroundColor = [[serverList userInterfaceObjects] serverListBackgroundColorForActiveWindow];
+	if (mainWindow.isActiveForDrawing) {
+		backgroundColor = serverList.userInterfaceObjects.serverListBackgroundColorForActiveWindow;
 	} else {
-		backgroundColor = [[serverList userInterfaceObjects] serverListBackgroundColorForInactiveWindow];
+		backgroundColor = serverList.userInterfaceObjects.serverListBackgroundColorForInactiveWindow;
 	}
 	
 	if ( backgroundColor) {
 		[backgroundColor set];
 		
-		NSRectFill([self bounds]);
+		NSRectFill(self.bounds);
 	} else {
 		NSGradient *backgroundGradient = [NSGradient sourceListBackgroundGradientColor];
 		
-		[backgroundGradient drawInRect:[self bounds] angle:270.0];
+		[backgroundGradient drawInRect:self.bounds angle:270.0];
 	}
 }
 

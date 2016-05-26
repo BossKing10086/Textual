@@ -91,8 +91,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSGradient *)whiteInputTextFieldInsideWhiteGradient
 {
-	return [NSGradient gradientWithStartingColor:[self whiteInputTextFieldInsideWhiteGradientStartColor]
-									 endingColor:[self whiteInputTextFieldInsideWhiteGradientEndColor]];
+	return [NSGradient gradientWithStartingColor:self.whiteInputTextFieldInsideWhiteGradientStartColor
+									 endingColor:self.whiteInputTextFieldInsideWhiteGradientEndColor];
 }
 
 - (NSColor *)whiteInputTextFieldOutsideBottomPrimaryGrayShadowColorWithRetina
