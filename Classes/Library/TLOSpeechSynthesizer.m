@@ -60,15 +60,15 @@ NS_ASSUME_NONNULL_BEGIN
 {
 	self.itemsToBeSpoken = [NSMutableArray array];
 
-	 self.speechSynthesizer = [NSSpeechSynthesizer new];
-	[self.speechSynthesizer setDelegate:self];
+	self.speechSynthesizer = [NSSpeechSynthesizer new];
+	self.speechSynthesizer.delegate = self;
 
 	self.isStopped = NO;
 }
 
 - (void)dealloc
 {
-	[self.speechSynthesizer setDelegate:nil];
+	self.speechSynthesizer.delegate = nil;
 }
 
 #pragma mark -
@@ -111,7 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
 	}
 
 	@synchronized(self.itemsToBeSpoken) {
-		NSString *nextMessage = [self.itemsToBeSpoken firstObject];
+		NSString *nextMessage = self.itemsToBeSpoken.firstObject;
 
 		if (nextMessage == nil) {
 			return;
@@ -137,21 +137,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)stopSpeakingAndMoveForward
 {
-	if (self.isSpeaking) {
-		[self.speechSynthesizer stopSpeaking]; // Will call delegate to do next item.
+	if (self.isSpeaking == NO) {
+		return;
 	}
+
+	[self.speechSynthesizer stopSpeaking]; // Will call delegate to do next item
 }
 
 - (void)stopSpeakingIfSet
 {
-	if (self.isSpeaking && self.isStopped) {
-		[self.speechSynthesizer stopSpeaking];
+	if (self.isSpeaking == NO || self.isStopped == NO) {
+		return;
 	}
+
+	[self.speechSynthesizer stopSpeaking];
 }
 
 - (BOOL)isSpeaking
 {
-	return [self.speechSynthesizer isSpeaking];
+	return self.speechSynthesizer.isSpeaking;
 }
 
 - (void)setIsStopped:(BOOL)isStopped

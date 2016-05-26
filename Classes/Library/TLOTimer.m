@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TLOTimer ()
 @property (nonatomic, assign) BOOL actionValidated;
-@property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, strong, nullable) NSTimer *timer;
 @end
 
 @implementation TLOTimer
@@ -49,9 +49,11 @@ NS_ASSUME_NONNULL_BEGIN
 {
 	if ((self = [super init])) {
 		[self prepareInitalState];
+
+		return self;
 	}
 
-	return self;
+	return nil;
 }
 
 - (void)prepareInitalState

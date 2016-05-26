@@ -114,7 +114,7 @@ TEXTUAL_IGNORE_DEPRECATION_END
 	defaults[@"zncIgnorePlaybackNotifications"] = @(YES);
 	defaults[@"zncIgnoreUserNotifications"] = @(NO);
 
-	self->_defaults = [defaults copy];
+	self->_defaults = defaults.copy;
 }
 
 - (void)populateDefaultsPostflight
@@ -144,11 +144,11 @@ TEXTUAL_IGNORE_DEPRECATION_END
 {
 	NSAssert((self->_objectInitialized == NO), @"Object is already initialized");
 
-	if ([self.serverAddress hasSuffix:@".freenode.net"] == NO) {
+	if ([self->_serverAddress hasSuffix:@".freenode.net"] == NO) {
 		return;
 	}
 
-	if (self.floodControlMaximumMessages != IRCClientConfigFloodControlDefaultMessageCount) {
+	if (self->_floodControlMaximumMessages != IRCClientConfigFloodControlDefaultMessageCount) {
 		return;
 	}
 
@@ -164,7 +164,10 @@ TEXTUAL_IGNORE_DEPRECATION_END
 #pragma mark -
 #pragma mark Server Configuration
 
-ClassWithDesignatedInitializerInitMethod
+- (instancetype)init
+{
+	return [self initWithDictionary:@{}];
+}
 
 - (instancetype)initWithDictionary:(NSDictionary<NSString *, id> *)dic
 {
@@ -201,7 +204,7 @@ ClassWithDesignatedInitializerInitMethod
 
 	NSAssert((self->_objectInitialized == NO), @"Object is already initialized");
 
-	NSMutableDictionary<NSString *, id> *defaultsMutable = [self->_defaults mutableCopy];
+	NSMutableDictionary<NSString *, id> *defaultsMutable = self->_defaults.mutableCopy;
 
 	[defaultsMutable addEntriesFromDictionary:dic];
 
@@ -266,7 +269,7 @@ ClassWithDesignatedInitializerInitMethod
 	for (NSDictionary<NSString *, id> *e in channelListIn) {
 		IRCChannelConfig *c = [[IRCChannelConfig alloc] initWithDictionary:e];
 
-		if ([c type] == IRCChannelPrivateMessageType) {
+		if (c.type == IRCChannelPrivateMessageType) {
 			if (ignorePrivateMessages == NO) {
 				[channelListOut addObject:c];
 			}
@@ -275,7 +278,7 @@ ClassWithDesignatedInitializerInitMethod
 		}
 	}
 
-	self->_channelList = [channelListOut copy];
+	self->_channelList = channelListOut.copy;
 
 	/* Ignore list */
 	NSMutableArray<IRCAddressBookEntry *> *ignoreListOut = [NSMutableArray array];
@@ -288,7 +291,7 @@ ClassWithDesignatedInitializerInitMethod
 		[ignoreListOut addObject:c];
 	}
 
-	self->_ignoreList = [ignoreListOut copy];
+	self->_ignoreList = ignoreListOut.copy;
 
 	/* Highlight list */
 	NSMutableArray<IRCHighlightMatchCondition *> *highlightListOut = [NSMutableArray array];
@@ -301,7 +304,7 @@ ClassWithDesignatedInitializerInitMethod
 		[highlightListOut addObject:c];
 	}
 
-	self->_highlightList = [highlightListOut copy];
+	self->_highlightList = highlightListOut.copy;
 
 	/* Load legacy keys (if they exist) */
 	/* If legacy keys were assigned before new keys, then a transition would not occur properly. */
@@ -346,7 +349,7 @@ ClassWithDesignatedInitializerInitMethod
 	if (floodControlDic) {
 		NSNumber *serviceEnabled = [floodControlDic objectForKey:@"serviceEnabled"];
 
-		if (serviceEnabled && [serviceEnabled boolValue] == NO) {
+		if (serviceEnabled && serviceEnabled.boolValue == NO) {
 			floodControlSetToDisabled = YES;
 		}
 
@@ -357,7 +360,7 @@ ClassWithDesignatedInitializerInitMethod
 	if (floodControlSetToDisabled == NO) {
 		NSNumber *floodControlEnabled = [defaultsMutable objectForKey:@"isOutgoingFloodControlEnabled"];
 
-		if (floodControlEnabled && [floodControlEnabled boolValue] == NO) {
+		if (floodControlEnabled && floodControlEnabled.boolValue == NO) {
 			floodControlSetToDisabled = YES;
 		}
 	}
@@ -374,14 +377,14 @@ ClassWithDesignatedInitializerInitMethod
 	NSString *proxyPassword = [defaultsMutable stringForKey:@"proxyServerPassword"];
 
 	if (proxyPassword) {
-		self->_proxyPassword = [proxyPassword copy];
+		self->_proxyPassword = proxyPassword.copy;
 
 		[self writeProxyPasswordToKeychain];
 	}
 
 	/* Sanity check */
-	NSParameterAssert([self->_connectionName length] > 0);
-	NSParameterAssert([self->_serverAddress length] > 0);
+	NSParameterAssert(self->_connectionName.length > 0);
+	NSParameterAssert(self->_serverAddress.length > 0);
 	NSParameterAssert(self->_serverPort > 0 && self->_serverPort <= TXMaximumTCPPort);
 	NSParameterAssert(self->_proxyPort > 0 && self->_proxyPort <= TXMaximumTCPPort);
 }
@@ -394,9 +397,9 @@ ClassWithDesignatedInitializerInitMethod
 		return NO;
 	}
 
-	NSDictionary *s1 = [self dictionaryValue];
+	NSDictionary *s1 = self.dictionaryValue;
 	
-	NSDictionary *s2 = [object dictionaryValue];
+	NSDictionary *s2 = ((IRCClientConfig *)object).dictionaryValue;
 
 	return (NSObjectsAreEqual(s1, s2) &&
 			NSObjectsAreEqual(self->_nicknamePassword, ((IRCClientConfig *)object)->_nicknamePassword) &&
@@ -406,7 +409,7 @@ ClassWithDesignatedInitializerInitMethod
 
 - (NSUInteger)hash
 {
-	return [self.uniqueIdentifier hash];
+	return self.uniqueIdentifier.hash;
 }
 
 - (BOOL)isMutable
@@ -417,7 +420,7 @@ ClassWithDesignatedInitializerInitMethod
 - (id)copyWithZone:(nullable NSZone *)zone
 {
 	  IRCClientConfig *config =
-	[[IRCClientConfig allocWithZone:zone] initWithDictionary:[self dictionaryValue] ignorePrivateMessages:NO];
+	[[IRCClientConfig allocWithZone:zone] initWithDictionary:self.dictionaryValue ignorePrivateMessages:NO];
 
 	// Instance variable is copied because self.nicknamePassward can return
 	// the value of the instance variable if present, else it uses keychain.
@@ -431,11 +434,11 @@ ClassWithDesignatedInitializerInitMethod
 - (id)mutableCopyWithZone:(nullable NSZone *)zone
 {
 	  IRCClientConfigMutable *config =
-	[[IRCClientConfigMutable allocWithZone:zone] initWithDictionary:[self dictionaryValue] ignorePrivateMessages:NO];
+	[[IRCClientConfigMutable allocWithZone:zone] initWithDictionary:self.dictionaryValue ignorePrivateMessages:NO];
 
-	[config setNicknamePassword:self->_nicknamePassword];
-	[config setProxyPassword:self->_proxyPassword];
-	[config setServerPassword:self->_serverPassword];
+	config.nicknamePassword = self->_nicknamePassword;
+	config.proxyPassword = self->_proxyPassword;
+	config.serverPassword = self->_serverPassword;
 
 	return config;
 }
@@ -511,39 +514,39 @@ ClassWithDesignatedInitializerInitMethod
 	NSMutableArray<NSDictionary *> *channelListOut = [NSMutableArray array];
 	
 	for (IRCChannelConfig *e in self.channelList) {
-		NSDictionary *d = [e dictionaryValue];
+		NSDictionary *d = e.dictionaryValue;
 
 		[channelListOut addObject:d];
 	}
 
-	if ([channelListOut count] > 0) {
-		[dic setObject:[channelListOut copy] forKey:@"channelList"];
+	if (channelListOut.count > 0) {
+		[dic setObject:channelListOut.copy forKey:@"channelList"];
 	}
 
 	/* Highlight list */
 	NSMutableArray<NSDictionary *> *highlightListOut = [NSMutableArray array];
 
 	for (IRCHighlightMatchCondition *e in self.highlightList) {
-		NSDictionary *d = [e dictionaryValue];
+		NSDictionary *d = e.dictionaryValue;
 
 		[highlightListOut addObject:d];
 	}
 
-	if ([highlightListOut count] > 0) {
-		[dic setObject:[highlightListOut copy] forKey:@"highlightList"];
+	if (highlightListOut.count > 0) {
+		[dic setObject:highlightListOut.copy forKey:@"highlightList"];
 	}
 
 	/* Ignore list */
 	NSMutableArray<NSDictionary *> *ignoreListOut = [NSMutableArray array];
 
 	for (IRCAddressBookEntry *e in self.ignoreList) {
-		NSDictionary *d = [e dictionaryValue];
+		NSDictionary *d = e.dictionaryValue;
 
 		[ignoreListOut addObject:d];
 	}
 
-	if ([ignoreListOut count] > 0) {
-		[dic setObject:[ignoreListOut copy] forKey:@"ignoreList"];
+	if (ignoreListOut.count > 0) {
+		[dic setObject:ignoreListOut.copy forKey:@"ignoreList"];
 	}
 
 	return [dic dictionaryByRemovingDefaults:self->_defaults allowEmptyValues:YES];
@@ -929,133 +932,133 @@ ClassWithDesignatedInitializerInitMethod
 - (void)setIgnoreList:(nullable NSArray<IRCAddressBookEntry *> *)ignoreList
 {
 	if (self->_ignoreList != ignoreList) {
-		self->_ignoreList = [ignoreList copy];
+		self->_ignoreList = ignoreList.copy;
 	}
 }
 
 - (void)setChannelList:(nullable NSArray<IRCChannelConfig *> *)channelList
 {
 	if (self->_channelList != channelList) {
-		self->_channelList = [channelList copy];
+		self->_channelList = channelList.copy;
 	}
 }
 
 - (void)setHighlightList:(nullable NSArray<IRCHighlightMatchCondition *> *)highlightList
 {
 	if (self->_highlightList != highlightList) {
-		self->_highlightList = [highlightList copy];
+		self->_highlightList = highlightList.copy;
 	}
 }
 
 - (void)setAlternateNicknames:(nullable NSArray<NSString *> *)alternateNicknames
 {
 	if (self->_alternateNicknames != alternateNicknames) {
-		self->_alternateNicknames = [alternateNicknames copy];
+		self->_alternateNicknames = alternateNicknames.copy;
 	}
 }
 
 - (void)setLoginCommands:(nullable NSArray<NSString *> *)loginCommands
 {
 	if (self->_loginCommands != loginCommands) {
-		self->_loginCommands = [loginCommands copy];
+		self->_loginCommands = loginCommands.copy;
 	}
 }
 
 - (void)setIdentityClientSideCertificate:(nullable NSData *)identityClientSideCertificate
 {
 	if (self->_identityClientSideCertificate != identityClientSideCertificate) {
-		self->_identityClientSideCertificate = [identityClientSideCertificate copy];
+		self->_identityClientSideCertificate = identityClientSideCertificate.copy;
 	}
 }
 
 - (void)setAwayNickname:(nullable NSString *)awayNickname
 {
 	if (self->_awayNickname != awayNickname) {
-		self->_awayNickname = [awayNickname copy];
+		self->_awayNickname = awayNickname.copy;
 	}
 }
 
 - (void)setConnectionName:(NSString *)connectionName
 {
 	if (self->_connectionName != connectionName) {
-		self->_connectionName = [connectionName copy];
+		self->_connectionName = connectionName.copy;
 	}
 }
 
 - (void)setNickname:(NSString *)nickname
 {
 	if (self->_nickname != nickname) {
-		self->_nickname = [nickname copy];
+		self->_nickname = nickname.copy;
 	}
 }
 
 - (void)setNicknamePassword:(nullable NSString *)nicknamePassword
 {
 	if (self->_nicknamePassword != nicknamePassword) {
-		self->_nicknamePassword = [nicknamePassword copy];
+		self->_nicknamePassword = nicknamePassword.copy;
 	}
 }
 
 - (void)setNormalLeavingComment:(NSString *)normalLeavingComment
 {
 	if (self->_normalLeavingComment != normalLeavingComment) {
-		self->_normalLeavingComment = [normalLeavingComment copy];
+		self->_normalLeavingComment = normalLeavingComment.copy;
 	}
 }
 
 - (void)setProxyAddress:(nullable NSString *)proxyAddress
 {
 	if (self->_proxyAddress != proxyAddress) {
-		self->_proxyAddress = [proxyAddress copy];
+		self->_proxyAddress = proxyAddress.copy;
 	}
 }
 
 - (void)setProxyPassword:(nullable NSString *)proxyPassword
 {
 	if (self->_proxyPassword != proxyPassword) {
-		self->_proxyPassword = [proxyPassword copy];
+		self->_proxyPassword = proxyPassword.copy;
 	}
 }
 
 - (void)setProxyUsername:(nullable NSString *)proxyUsername
 {
 	if (self->_proxyUsername != proxyUsername) {
-		self->_proxyUsername = [proxyUsername copy];
+		self->_proxyUsername = proxyUsername.copy;
 	}
 }
 
 - (void)setRealName:(NSString *)realName
 {
 	if (self->_realName != realName) {
-		self->_realName = [realName copy];
+		self->_realName = realName.copy;
 	}
 }
 
 - (void)setServerAddress:(NSString *)serverAddress
 {
 	if (self->_serverAddress != serverAddress) {
-		self->_serverAddress = [serverAddress copy];
+		self->_serverAddress = serverAddress.copy;
 	}
 }
 
 - (void)setServerPassword:(nullable NSString *)serverPassword
 {
 	if (self->_serverPassword != serverPassword) {
-		self->_serverPassword = [serverPassword copy];
+		self->_serverPassword = serverPassword.copy;
 	}
 }
 
 - (void)setSleepModeLeavingComment:(NSString *)sleepModeLeavingComment
 {
 	if (self->_sleepModeLeavingComment != sleepModeLeavingComment) {
-		self->_sleepModeLeavingComment = [sleepModeLeavingComment copy];
+		self->_sleepModeLeavingComment = sleepModeLeavingComment.copy;
 	}
 }
 
 - (void)setUsername:(NSString *)username
 {
 	if (self->_username != username) {
-		self->_username = [username copy];
+		self->_username = username.copy;
 	}
 }
 

@@ -52,10 +52,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)rightMouseDown:(NSEvent *)theEvent
 {
 	/* Change selection to row clicked on */
-	NSInteger rowUnderMouse = [self rowUnderMouse];
+	NSInteger rowUnderMouse = self.rowUnderMouse;
 
 	if (rowUnderMouse >= 0) {
-		if ([[self selectedRowIndexes] containsIndex:rowUnderMouse] == NO) {
+		if ([self.selectedRowIndexes containsIndex:rowUnderMouse] == NO) {
 			[self selectItemAtIndex:rowUnderMouse];
 		}
 	}

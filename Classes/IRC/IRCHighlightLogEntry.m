@@ -57,10 +57,10 @@ NS_ASSUME_NONNULL_BEGIN
 {
 	IRCHighlightLogEntryMutable *object = [[IRCHighlightLogEntryMutable allocWithZone:zone] init];
 
-	[object setRenderedMessage:self.renderedMessage];
-	[object setTimeLogged:self.timeLogged];
-	[object setChannelId:self.channelId];
-	[object setLineNumber:self.lineNumber];
+	object.renderedMessage = self.renderedMessage;
+	object.timeLogged = self.timeLogged;
+	object.channelId = self.channelId;
+	object.lineNumber = self.lineNumber;
 
 	return object;
 }
@@ -89,28 +89,28 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setRenderedMessage:(NSAttributedString *)renderedMessage
 {
 	if (self->_renderedMessage != renderedMessage) {
-		self->_renderedMessage = [renderedMessage copy];
+		self->_renderedMessage = renderedMessage.copy;
 	}
 }
 
 - (void)setChannelId:(NSString *)channelId
 {
 	if (self->_channelId != channelId) {
-		self->_channelId = [channelId copy];
+		self->_channelId = channelId.copy;
 	}
 }
 
 - (void)setLineNumber:(NSString *)lineNumber
 {
 	if (self->_lineNumber != lineNumber) {
-		self->_lineNumber = [lineNumber copy];
+		self->_lineNumber = lineNumber.copy;
 	}
 }
 
 - (void)setTimeLogged:(NSDate *)timeLogged
 {
 	if (self->_timeLogged != timeLogged) {
-		self->_timeLogged = [timeLogged copy];
+		self->_timeLogged = timeLogged.copy;
 	}
 }
 

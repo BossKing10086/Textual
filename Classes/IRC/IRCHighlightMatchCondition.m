@@ -48,7 +48,10 @@ NS_ASSUME_NONNULL_BEGIN
 	SetVariableIfNil(self->_uniqueIdentifier, [NSString stringWithUUID])
 }
 
-ClassWithDesignatedInitializerInitMethod
+- (instancetype)init
+{
+	return [self initWithDictionary:@{}];
+}
 
 - (instancetype)initWithDictionary:(NSDictionary<NSString *, id> *)dic
 {
@@ -79,7 +82,7 @@ ClassWithDesignatedInitializerInitMethod
 	[dic assignStringTo:&self->_matchKeyword forKey:@"matchKeyword"];
 	[dic assignStringTo:&self->_uniqueIdentifier forKey:@"uniqueIdentifier"];
 
-	NSParameterAssert([self->_matchKeyword length] > 0);
+	NSParameterAssert(self->_matchKeyword.length > 0);
 }
 
 - (NSDictionary<NSString *, id> *)dictionaryValue
@@ -92,13 +95,13 @@ ClassWithDesignatedInitializerInitMethod
 
 	[dic setBool:self.matchIsExcluded forKey:@"matchIsExcluded"];
 
-	return [dic copy];
+	return dic.copy;
 }
 
 - (id)copyWithZone:(nullable NSZone *)zone
 {
 	  IRCHighlightMatchCondition *object =
-	[[IRCHighlightMatchCondition allocWithZone:zone] initWithDictionary:[self dictionaryValue]];
+	[[IRCHighlightMatchCondition allocWithZone:zone] initWithDictionary:self.dictionaryValue];
 
 	return object;
 }
@@ -106,7 +109,7 @@ ClassWithDesignatedInitializerInitMethod
 - (id)mutableCopyWithZone:(nullable NSZone *)zone
 {
 	  IRCHighlightMatchConditionMutable *object =
-	[[IRCHighlightMatchConditionMutable allocWithZone:zone] initWithDictionary:[self dictionaryValue]];
+	[[IRCHighlightMatchConditionMutable allocWithZone:zone] initWithDictionary:self.dictionaryValue];
 
 	return object;
 }
@@ -141,14 +144,14 @@ ClassWithDesignatedInitializerInitMethod
 - (void)setMatchChannelId:(nullable NSString *)matchChannelId
 {
 	if (self->_matchChannelId != matchChannelId) {
-		self->_matchChannelId = [matchChannelId copy];
+		self->_matchChannelId = matchChannelId.copy;
 	}
 }
 
 - (void)setMatchKeyword:(NSString *)matchKeyword
 {
 	if (self->_matchKeyword != matchKeyword) {
-		self->_matchKeyword = [matchKeyword copy];
+		self->_matchKeyword = matchKeyword.copy;
 	}
 }
 

@@ -44,9 +44,9 @@ NS_ASSUME_NONNULL_BEGIN
 {
 	NSParameterAssert(command != nil);
 
-	NSString *commandUppercase = [command uppercaseString];
+	NSString *commandUppercase = command.uppercaseString;
 
-	if ([arguments count] == 0) {
+	if (arguments.count == 0) {
 		return commandUppercase;
 	}
 
@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
 			// is in the formoat "PRIVMSG #channel :long message" — The message
 			// will have spaces part of it, so we inform the server.
 			
-			if (colonIndexCount == ([arguments count] - 1) && ([argument hasPrefix:@":"] || [argument contains:NSStringWhitespacePlaceholder])) {
+			if (colonIndexCount == (arguments.count - 1) && ([argument hasPrefix:@":"] || [argument contains:NSStringWhitespacePlaceholder])) {
 				[builtString appendString:@":"];
 			}
 		} else {
@@ -83,7 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
 		colonIndexCount += 1;
 	}
 
-	return [builtString copy];
+	return builtString.copy;
 }
 
 @end

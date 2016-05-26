@@ -36,9 +36,9 @@
 
  *********************************************************************** */
 
-NS_ASSUME_NONNULL_BEGIN
-
 #import "IRCChannelConfigInternal.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation IRCChannelConfig
 
@@ -79,18 +79,21 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark -
 #pragma mark Channel Configuration
 
-ClassWithDesignatedInitializerInitMethod
-
 + (IRCChannelConfig *)seedWithName:(NSString *)channelName
 {
-	PointerIsEmptyAssertReturn(channelName, nil)
+	NSParameterAssert(channelName != nil);
 
 	NSDictionary *dic = @{@"channelName" : channelName};
 
 	  IRCChannelConfig *config =
 	[[IRCChannelConfig alloc] initWithDictionary:dic];
 		
-	return seed;
+	return config;
+}
+
+- (instancetype)init
+{
+	return [self initWithDictionary:@{}];
 }
 
 - (instancetype)initWithDictionary:(NSDictionary<NSString *, id> *)dic
@@ -122,30 +125,33 @@ ClassWithDesignatedInitializerInitMethod
 
 	[defaultsMutable addEntriesFromDictionary:dic];
 
-	/* Load the newest set of keys */
-	[defaultsMutable assignBoolTo:&self->_autoJoin forKey:@"autoJoin"];
-	[defaultsMutable assignBoolTo:&self->_ignoreGeneralEventMessages forKey:@"ignoreGeneralEventMessages"];
-	[defaultsMutable assignBoolTo:&self->_ignoreHighlights forKey:@"ignoreHighlights"];
-	[defaultsMutable assignBoolTo:&self->_ignoreInlineMedia forKey:@"ignoreInlineMedia"];
-	[defaultsMutable assignBoolTo:&self->_pushNotifications forKey:@"pushNotifications"];
-	[defaultsMutable assignBoolTo:&self->_showTreeBadgeCount forKey:@"showTreeBadgeCount"];
-
 	[defaultsMutable assignStringTo:&self->_channelName forKey:@"channelName"];
-	[defaultsMutable assignStringTo:&self->_defaultModes forKey:@"defaultMode"];
-	[defaultsMutable assignStringTo:&self->_defaultTopic forKey:@"defaultTopic"];
 	[defaultsMutable assignStringTo:&self->_uniqueIdentifier forKey:@"uniqueIdentifier"];
 
 	[defaultsMutable assignUnsignedIntegerTo:&self->_type forKey:@"channelType"];
 
-	/* Load legacy keys (if they exist) */
-	[defaultsMutable assignBoolTo:&self->_autoJoin forKey:@"joinOnConnect"];
-	[defaultsMutable assignBoolTo:&self->_ignoreGeneralEventMessages forKey:@"ignoreJPQActivity"];
-	[defaultsMutable assignBoolTo:&self->_ignoreInlineMedia forKey:@"disableInlineMedia"];
-	[defaultsMutable assignBoolTo:&self->_pushNotifications forKey:@"enableNotifications"];
-	[defaultsMutable assignBoolTo:&self->_showTreeBadgeCount forKey:@"enableTreeBadgeCountDrawing"];
+	if (self->_type == IRCChannelChannelType) {
+		/* Load the newest set of keys */
+		[defaultsMutable assignBoolTo:&self->_autoJoin forKey:@"autoJoin"];
+		[defaultsMutable assignBoolTo:&self->_ignoreGeneralEventMessages forKey:@"ignoreGeneralEventMessages"];
+		[defaultsMutable assignBoolTo:&self->_ignoreHighlights forKey:@"ignoreHighlights"];
+		[defaultsMutable assignBoolTo:&self->_ignoreInlineMedia forKey:@"ignoreInlineMedia"];
+		[defaultsMutable assignBoolTo:&self->_pushNotifications forKey:@"pushNotifications"];
+		[defaultsMutable assignBoolTo:&self->_showTreeBadgeCount forKey:@"showTreeBadgeCount"];
+
+		[defaultsMutable assignStringTo:&self->_defaultModes forKey:@"defaultMode"];
+		[defaultsMutable assignStringTo:&self->_defaultTopic forKey:@"defaultTopic"];
+
+		/* Load legacy keys (if they exist) */
+		[defaultsMutable assignBoolTo:&self->_autoJoin forKey:@"joinOnConnect"];
+		[defaultsMutable assignBoolTo:&self->_ignoreGeneralEventMessages forKey:@"ignoreJPQActivity"];
+		[defaultsMutable assignBoolTo:&self->_ignoreInlineMedia forKey:@"disableInlineMedia"];
+		[defaultsMutable assignBoolTo:&self->_pushNotifications forKey:@"enableNotifications"];
+		[defaultsMutable assignBoolTo:&self->_showTreeBadgeCount forKey:@"enableTreeBadgeCountDrawing"];
+	}
 
 	/* Sanity check */
-	NSParameterAssert([self->_channelName length] > 0);
+	NSParameterAssert(self->_channelName.length > 0);
 }
 
 - (NSDictionary<NSString *, id> *)dictionaryValue
@@ -185,9 +191,9 @@ ClassWithDesignatedInitializerInitMethod
 		return NO;
 	}
 
-	NSDictionary *s1 = [self dictionaryValue];
+	NSDictionary *s1 = self.dictionaryValue;
 
-	NSDictionary *s2 = [object dictionaryValue];
+	NSDictionary *s2 = ((IRCChannelConfig *)object).dictionaryValue;
 
 	return (NSObjectsAreEqual(s1, s2) &&
 			NSObjectsAreEqual(self->_secretKey, ((IRCChannelConfig *)object)->_secretKey));
@@ -195,7 +201,7 @@ ClassWithDesignatedInitializerInitMethod
 
 - (NSUInteger)hash
 {
-	return [self.uniqueIdentifier hash];
+	return self.uniqueIdentifier.hash;
 }
 
 - (BOOL)isMutable
@@ -203,22 +209,22 @@ ClassWithDesignatedInitializerInitMethod
 	return NO;
 }
 
-- (id)copyWithZone:(NSZone *)zone
+- (id)copyWithZone:(nullable NSZone *)zone
 {
 	  IRCChannelConfig *config =
-	[[IRCChannelConfig allocWithZone:zone] initWithDictionary:[self dictionaryValue]];
+	[[IRCChannelConfig allocWithZone:zone] initWithDictionary:self.dictionaryValue];
 
-	config->_secretKey = [self->_secretKey copy];
+	config->_secretKey = self->_secretKey.copy;
 
 	return config;
 }
 
-- (id)mutableCopyWithZone:(NSZone *)zone
+- (id)mutableCopyWithZone:(nullable NSZone *)zone
 {
 	  IRCChannelConfigMutable *config =
-	[[IRCChannelConfigMutable allocWithZone:zone] initWithDictionary:[self dictionaryValue]];
+	[[IRCChannelConfigMutable allocWithZone:zone] initWithDictionary:self.dictionaryValue];
 
-	[config setSecretKey:self->_secretKey];
+	config.secretKey = self->_secretKey;
 
 	return config;
 }
@@ -226,7 +232,7 @@ ClassWithDesignatedInitializerInitMethod
 #pragma mark -
 #pragma mark Keychain Management
 
-- (NSString *)secretKey
+- (nullable NSString *)secretKey
 {
 	if (self->_secretKey) {
 		return self->_secretKey;
@@ -235,7 +241,7 @@ ClassWithDesignatedInitializerInitMethod
 	}
 }
 
-- (NSString *)secretKeyFromKeychain
+- (nullable NSString *)secretKeyFromKeychain
 {
 	NSString *secretKeyServiceName = [NSString stringWithFormat:@"textual.cjoinkey.%@", self.uniqueIdentifier];
 
@@ -353,28 +359,28 @@ ClassWithDesignatedInitializerInitMethod
 - (void)setChannelName:(NSString *)channelName
 {
 	if (self->_channelName != channelName) {
-		self->_channelName = [channelName copy];
+		self->_channelName = channelName.copy;
 	}
 }
 
 - (void)setDefaultModes:(nullable NSString *)defaultModes
 {
 	if (self->_defaultModes != defaultModes) {
-		self->_defaultModes = [defaultModes copy];
+		self->_defaultModes = defaultModes.copy;
 	}
 }
 
 - (void)setDefaultTopic:(nullable NSString *)defaultTopic
 {
 	if (self->_defaultTopic != defaultTopic) {
-		self->_defaultTopic = [defaultTopic copy];
+		self->_defaultTopic = defaultTopic.copy;
 	}
 }
 
 - (void)setSecretKey:(nullable NSString *)secretKey
 {
 	if (self->_secretKey != secretKey) {
-		self->_secretKey = [secretKey copy];
+		self->_secretKey = secretKey.copy;
 	}
 }
 

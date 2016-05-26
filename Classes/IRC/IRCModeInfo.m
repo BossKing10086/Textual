@@ -57,9 +57,9 @@ NS_ASSUME_NONNULL_BEGIN
 {
 	IRCModeInfoMutable *object = [[IRCModeInfoMutable allocWithZone:zone] init];
 
-	[object setModeIsSet:self.modeIsSet];
-	[object setModeToken:self.modeToken];
-	[object setModeParamater:self.modeParamater];
+	object.modeIsSet = self.modeIsSet;
+	object.modeToken = self.modeToken;
+	object.modeParamater = self.modeParamater;
 
 	return object;
 }
@@ -94,14 +94,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setModeToken:(NSString *)modeToken
 {
 	if (self->_modeToken != modeToken) {
-		self->_modeToken = [modeToken copy];
+		self->_modeToken = modeToken.copy;
 	}
 }
 
 - (void)setModeParamater:(nullable NSString *)modeParamater
 {
 	if (self->_modeParamater != modeParamater) {
-		self->_modeParamater = [modeParamater copy];
+		self->_modeParamater = modeParamater.copy;
 	}
 }
 

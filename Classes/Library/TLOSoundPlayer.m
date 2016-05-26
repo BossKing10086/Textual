@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 	for (NSString *file in files) {
 		NSString *filePath = [path stringByAppendingPathComponent:file];
 
-		NSString *fileWithoutExtension = [file stringByDeletingPathExtension];
+		NSString *fileWithoutExtension = file.stringByDeletingPathExtension;
 
 		resultData[fileWithoutExtension] = filePath;
 	}
@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
 {
 	NSArray *folders = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSSystemDomainMask, YES);
 
-	if ([folders count] == 0) {
+	if (folders.count == 0) {
 		return nil;
 	}
 
@@ -76,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 {
 	NSArray *folders = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSLocalDomainMask, YES);
 
-	if ([folders count] == 0) {
+	if (folders.count == 0) {
 		return nil;
 	}
 
@@ -89,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
 {
 	NSArray *folders = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
 
-	if ([folders count] == 0) {
+	if (folders.count == 0) {
 		return nil;
 	}
 
@@ -106,7 +106,7 @@ NS_ASSUME_NONNULL_BEGIN
 		return;
 	}
 
-	NSString *fileExtension = [filePath pathExtension];
+	NSString *fileExtension = filePath.pathExtension;
 
 	CFStringRef fileUTI = UTTypeCreatePreferredIdentifierForTag(
 		kUTTagClassFilenameExtension, (__bridge CFStringRef)fileExtension, NULL);
@@ -166,7 +166,7 @@ NS_ASSUME_NONNULL_BEGIN
 {
 	NSParameterAssert(name != nil);
 	
-	if ([name isEqualToString:TXEmptySoundAlertPreferenceValue]) {
+	if ([name isEqualToString:TXEmptyAlertSoundPreferenceValue]) {
 		return;
 	}
 

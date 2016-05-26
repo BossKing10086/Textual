@@ -67,20 +67,20 @@ NS_ASSUME_NONNULL_BEGIN
 {
 	IRCConnectionConfigMutable *object = [[IRCConnectionConfigMutable allocWithZone:zone] init];
 
-	[object setConnectionPrefersIPv6:self.connectionPrefersIPv6];
-	[object setConnectionPrefersModernCiphers:self.connectionPrefersModernCiphers];
-	[object setConnectionPrefersSecuredConnection:self.connectionPrefersSecuredConnection];
-	[object setConnectionShouldValidateCertificateChain:self.connectionShouldValidateCertificateChain];
-	[object setFloodControlDelayInterval:self.floodControlDelayInterval];
-	[object setFloodControlMaximumMessages:self.floodControlMaximumMessages];
-	[object setIdentityClientSideCertificate:self.identityClientSideCertificate];
-	[object setProxyAddress:self.proxyAddress];
-	[object setProxyPassword:self.proxyPassword];
-	[object setProxyPort:self.proxyPort];
-	[object setProxyType:self.proxyType];
-	[object setProxyUsername:self.proxyUsername];
-	[object setServerAddress:self.serverAddress];
-	[object setServerPort:self.serverPort];
+	object.connectionPrefersIPv6 = self.connectionPrefersIPv6;
+	object.connectionPrefersModernCiphers = self.connectionPrefersModernCiphers;
+	object.connectionPrefersSecuredConnection = self.connectionPrefersSecuredConnection;
+	object.connectionShouldValidateCertificateChain = self.connectionShouldValidateCertificateChain;
+	object.floodControlDelayInterval = self.floodControlDelayInterval;
+	object.floodControlMaximumMessages = self.floodControlMaximumMessages;
+	object.identityClientSideCertificate = self.identityClientSideCertificate;
+	object.proxyAddress = self.proxyAddress;
+	object.proxyPassword = self.proxyPassword;
+	object.proxyPort = self.proxyPort;
+	object.proxyType = self.proxyType;
+	object.proxyUsername = self.proxyUsername;
+	object.serverAddress = self.serverAddress;
+	object.serverPort = self.serverPort;
 
 	return object;
 }
@@ -154,35 +154,35 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setIdentityClientSideCertificate:(nullable NSData *)identityClientSideCertificate
 {
 	if (self->_identityClientSideCertificate != identityClientSideCertificate) {
-		self->_identityClientSideCertificate = [identityClientSideCertificate copy];
+		self->_identityClientSideCertificate = identityClientSideCertificate.copy;
 	}
 }
 
 - (void)setProxyAddress:(nullable NSString *)proxyAddress
 {
 	if (self->_proxyAddress != proxyAddress) {
-		self->_proxyAddress = [proxyAddress copy];
+		self->_proxyAddress = proxyAddress.copy;
 	}
 }
 
 - (void)setProxyPassword:(nullable NSString *)proxyPassword
 {
 	if (self->_proxyPassword != proxyPassword) {
-		self->_proxyPassword = [proxyPassword copy];
+		self->_proxyPassword = proxyPassword.copy;
 	}
 }
 
 - (void)setProxyUsername:(nullable NSString *)proxyUsername
 {
 	if (self->_proxyUsername != proxyUsername) {
-		self->_proxyUsername = [proxyUsername copy];
+		self->_proxyUsername = proxyUsername.copy;
 	}
 }
 
 - (void)setServerAddress:(NSString *)serverAddress
 {
 	if (self->_serverAddress != serverAddress) {
-		self->_serverAddress = [serverAddress copy];
+		self->_serverAddress = serverAddress.copy;
 	}
 }
 

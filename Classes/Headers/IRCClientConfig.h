@@ -115,6 +115,7 @@ typedef NS_ENUM(NSUInteger, IRCConnectionSocketProxyType) {
 @property (readonly, copy, nullable) NSData *identityClientSideCertificate;
 
 - (instancetype)initWithDictionary:(NSDictionary<NSString *, id> *)dic NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithDictionary:(NSDictionary<NSString *, id> *)dic ignorePrivateMessages:(BOOL)ignorePrivateMessages NS_DESIGNATED_INITIALIZER;
 - (NSDictionary<NSString *, id> *)dictionaryValue;
 @end
 

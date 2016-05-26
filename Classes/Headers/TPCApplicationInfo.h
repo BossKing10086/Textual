@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface TPCApplicationInfo : NSObject
 + (BOOL)sandboxEnabled;
 
-+ (NSDate *)applicationLaunchDate;
++ (nullable NSDate *)applicationLaunchDate;
 
 + (NSTimeInterval)timeIntervalSinceApplicationLaunch;
 + (NSTimeInterval)timeIntervalSinceApplicationInstall;

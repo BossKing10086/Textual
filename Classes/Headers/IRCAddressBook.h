@@ -75,7 +75,7 @@ TEXTUAL_EXTERN NSString * const IRCAddressBookDictionaryValueTrackUserActivityKe
 @property (readonly) BOOL ignorePublicMessageHighlights;
 @property (readonly) BOOL ignorePublicMessages;
 @property (readonly) BOOL ignoreFileTransferRequests;
-@property (readonly) BOOL ignoreMessagesContainingMatchh;
+@property (readonly) BOOL ignoreMessagesContainingMatch;
 @property (readonly) BOOL trackUserActivity;
 
 + (instancetype)newIgnoreEntry;
@@ -100,7 +100,7 @@ TEXTUAL_EXTERN NSString * const IRCAddressBookDictionaryValueTrackUserActivityKe
 @property (nonatomic, assign, readwrite) BOOL ignorePublicMessageHighlights;
 @property (nonatomic, assign, readwrite) BOOL ignorePublicMessages;
 @property (nonatomic, assign, readwrite) BOOL ignoreFileTransferRequests;
-@property (nonatomic, assign, readwrite) BOOL ignoreMessagesContainingMatchh;
+@property (nonatomic, assign, readwrite) BOOL ignoreMessagesContainingMatch;
 @property (nonatomic, assign, readwrite) BOOL trackUserActivity;
 @end
 

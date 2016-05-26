@@ -61,7 +61,7 @@ typedef NS_ENUM(NSUInteger, TVCServerListNavigationSelectionType) {
 
 @property (readonly) BOOL multipleItemsSelected;
 @property (readonly) IRCTreeItem *selectedItem;
-@property (readonly, copy) NSArray<NSString *> *selectedItems;
+@property (readonly, copy) NSArray<IRCTreeItem *> *selectedItems;
 @property (readonly) IRCClient *selectedClient;
 @property (readonly) IRCChannel *selectedChannel;
 @property (readonly) TVCLogController *selectedViewController;

@@ -43,8 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
 /* The value of -action is validated to ensure that it returns 
  no value (void) and that it takes no arguments */
 @interface TLOTimer : NSObject
-@property (nonatomic, weak) id target;
-@property (nonatomic, assign) SEL action;
+@property (nonatomic, weak, nullable) id target;
+@property (nonatomic, assign, nullable) SEL action;
 @property (nonatomic, assign) BOOL reqeatTimer;
 
 @property (readonly) BOOL timerIsActive;
