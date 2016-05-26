@@ -35,10 +35,12 @@
 
  *********************************************************************** */
 
+#import "TDCSheetBasePrivate.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TDCNicknameColorSheet : TDCSheetBase
-- (instancetype)initWithNickname:(NSString *)nickname onClient:(IRCClient *)client NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithNickname:(NSString *)nickname NS_DESIGNATED_INITIALIZER;
 
 - (void)start;
 @end
@@ -46,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol TDCNicknameColorSheetDelegate <NSObject>
 @required
 
-- (void)nicknameColorSheetOnOK:(TDCNicknameColorSheet *)sneder;
+- (void)nicknameColorSheetOnOk:(TDCNicknameColorSheet *)sneder;
 - (void)nicknameColorSheetWillClose:(TDCNicknameColorSheet *)sender;
 @end
 

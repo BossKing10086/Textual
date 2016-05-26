@@ -41,8 +41,8 @@ typedef void (^TVCLogControllerOperationBlock)(NSOperation *sender);
 
 @interface TVCLogControllerOperationQueue : NSOperationQueue
 - (void)enqueueMessageBlock:(TVCLogControllerOperationBlock)callbackBlock for:(TVCLogController *)viewController;
-- (void)enqueueMessageBlock:(TVCLogControllerOperationBlock)callbackBlock for:(TVCLogController *)viewController description:(NSString *)description;
-- (void)enqueueMessageBlock:(TVCLogControllerOperationBlock)callbackBlock for:(TVCLogController *)viewController description:(NSString *)description isStandalone:(BOOL)isStandalone;
+- (void)enqueueMessageBlock:(TVCLogControllerOperationBlock)callbackBlock for:(TVCLogController *)viewController description:(nullable NSString *)description;
+- (void)enqueueMessageBlock:(TVCLogControllerOperationBlock)callbackBlock for:(TVCLogController *)viewController description:(nullable NSString *)description isStandalone:(BOOL)isStandalone;
 
 - (void)cancelOperationsForClient:(IRCClient *)client;
 - (void)cancelOperationsForChannel:(IRCChannel *)channel;

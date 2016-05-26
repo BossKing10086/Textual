@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol TDChannelModifyModesSheetDelegate <NSObject>
 @required
 
-- (void)channelModifyModesSheetOnOK:(TDChannelModifyModesSheet *)sender;
+- (void)channelModifyModesSheetOnOk:(TDChannelModifyModesSheet *)sender;
 - (void)channelModifyModesSheetWillClose:(TDChannelModifyModesSheet *)sender;
 @end
 

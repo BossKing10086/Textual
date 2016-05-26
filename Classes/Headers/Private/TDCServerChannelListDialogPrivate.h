@@ -43,6 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface TDCServerChannelListDialog : NSWindowController
 @property (nonatomic, weak, nullable) id <TDCServerChannelListDialogDelegate> delegate;
 @property (nonatomic, assign) BOOL contentAlreadyReceived;
+@property (readonly, copy) NSString *clientId;
 
 - (instancetype)initWithClient:(IRCClient *)client NS_DESIGNATED_INITIALIZER;
 

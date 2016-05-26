@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol TDCWelcomeSheetDelegate <NSObject>
 @required
 
-- (void)welcomeSheet:(TDCWelcomeSheet *)sender onOK:(IRCClientConfig *)config;
+- (void)welcomeSheet:(TDCWelcomeSheet *)sender onOk:(IRCClientConfig *)config;
 - (void)welcomeSheetWillClose:(TDCWelcomeSheet *)sender;
 @end
 

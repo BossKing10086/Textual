@@ -170,5 +170,3 @@ typedef struct {
 #import "GRMustacheConfiguration.h"
 #import "GRMustacheLocalizer.h"
 #import "GRMustacheSafeKeyAccess.h"
-#import "NSValueTransformer+GRMustache.h"
-#import "NSFormatter+GRMustache.h"

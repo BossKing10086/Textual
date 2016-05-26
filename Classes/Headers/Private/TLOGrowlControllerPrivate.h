@@ -36,9 +36,9 @@
 
  *********************************************************************** */
 
-NS_ASSUME_NONNULL_BEGIN
-
 #import <Growl/Growl.h>
+
+NS_ASSUME_NONNULL_BEGIN
 
 TEXTUAL_EXTERN NSString * const TXNotificationDialogStandardNicknameFormat;
 TEXTUAL_EXTERN NSString * const TXNotificationDialogActionNicknameFormat;

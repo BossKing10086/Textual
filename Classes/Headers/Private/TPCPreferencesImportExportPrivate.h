@@ -38,7 +38,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TPCPreferencesImportExport ()
-+ (void)import:(id)object withKey:(id)key;
++ (void)import:(id)object withKey:(NSString *)key;
 
 + (void)importContentsOfDictionary:(NSDictionary<NSString *, id> *)aDict;
 + (void)importClientConfiguration:(NSDictionary<NSString *, id> *)config isImportedFromCloud:(BOOL)isImportedFromCloud;

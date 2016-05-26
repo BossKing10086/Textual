@@ -35,6 +35,8 @@
 
  *********************************************************************** */
 
+#import "TLOEncryptionManagerPrivate.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 enum {

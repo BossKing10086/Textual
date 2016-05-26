@@ -38,7 +38,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-TEXTUAL_EXTERN NSString * const TXEmptySoundAlertPreferenceValue;
+TEXTUAL_EXTERN NSString * const TXEmptyAlertSoundPreferenceValue;
 
 @interface TDCPreferencesSoundWrapper : NSObject
 @property (readonly) TXNotificationType eventType;
@@ -50,9 +50,11 @@ TEXTUAL_EXTERN NSString * const TXEmptySoundAlertPreferenceValue;
 @property (nonatomic, assign) BOOL bounceDockIcon;
 @property (nonatomic, assign) BOOL bounceDockIconRepeatedly;
 
-+ (NSString *)localizedEmptySoundSelectionLabel;
++ (NSString *)localizedAlertEmptySoundTitle;
 
-+ (TDCPreferencesSoundWrapper *)soundWrapperWithEventType:(TXNotificationType)eventType NS_DESIGNATED_INITIALIZER;
++ (TDCPreferencesSoundWrapper *)soundWrapperWithEventType:(TXNotificationType)eventType;
+
+- (instancetype)initWithEventType:(TXNotificationType)aEventType NS_DESIGNATED_INITIALIZER;
 @end
 
 NS_ASSUME_NONNULL_END

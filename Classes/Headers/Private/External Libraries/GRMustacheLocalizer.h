@@ -70,7 +70,7 @@
 @private
     NSBundle *_bundle;
     NSString *_tableName;
-*_formatArguments;
+    NSMutableArray *_formatArguments;
 }
 
 /**

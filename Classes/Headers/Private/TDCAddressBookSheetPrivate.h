@@ -36,10 +36,12 @@
 
  *********************************************************************** */
 
+#import "TDCSheetBasePrivate.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TDCAddressBookSheet : TDCSheetBase
-- (instancetype)initWithIgnore:(IRCAddressBookEntry *)ignore NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithConfig:(IRCAddressBookEntry *)config NS_DESIGNATED_INITIALIZER;
 
 - (void)start;
 @end
@@ -47,8 +49,8 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol TDCAddressBookSheetDelegate <NSObject>
 @required
 
-- (void)ignoreItemSheetOnOK:(TDCAddressBookSheet *)sender;
-- (void)ignoreItemSheetWillClose:(TDCAddressBookSheet *)sender;
+- (void)addressBookSheet:(TDCAddressBookSheet *)sender onOk:(IRCAddressBookEntry *)config;
+- (void)addressBookSheetWillClose:(TDCAddressBookSheet *)sender;
 @end
 
 NS_ASSUME_NONNULL_END

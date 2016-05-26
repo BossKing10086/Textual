@@ -61,6 +61,8 @@ typedef NS_ENUM(NSUInteger, TDCFileTransferDialogNavigationSelectedTab) {
 	TDCFileTransferDialogNavigationReceivingSelectedTab		= 2
 };
 
+@class TDCFileTransferDialogTransferController;
+
 @interface TDCFileTransferDialog : NSWindowController
 - (void)show;
 - (void)show:(BOOL)makeKeyWindow;
@@ -104,9 +106,9 @@ typedef NS_ENUM(NSUInteger, TDCFileTransferDialogNavigationSelectedTab) {
 #pragma mark -
 
 @interface TDCFileTransferDialog (TDCFileTransferDialogDownloadDestinationExtension)
-@property (readonly, copy, nullable) NSURL *downloadDestinationURL;
+- (nullable NSURL *)downloadDestinationURL;
 
-- (void)setDownloadDestinationURL:(NSData *)downloadDestinationURL;
+- (void)setDownloadDestinationURL:(nullable NSData *)downloadDestinationURL;
 
 - (void)startUsingDownloadDestinationURL;
 @end

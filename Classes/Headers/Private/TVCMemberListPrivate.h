@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface TVCMemberList ()
 @property (nonatomic, weak, nullable) id keyDelegate;
 
-- (id)userInterfaceObjects;
+- (__kindof TVCMemberListSharedUserInterface *)userInterfaceObjects;
 - (nullable NSVisualEffectView *)visualEffectView;
 - (nullable TVCMemberListMavericksUserInterfaceBackground *)backgroundView;
 - (TVCMemberListUserInfoPopover *)memberListUserInfoPopover;

@@ -35,38 +35,15 @@
 
  *********************************************************************** */
 
+#import "TDCSheetBasePrivate.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
-#define DESIGNATED_INITIALIZER_EXCEPTION	\
-	NSAssert(NO, @"-init called in class with a designated initializer");
+@interface TDCProgressIndicatorSheet : TDCSheetBase
+- (instancetype)initWithWindow:(NSWindow *)window NS_DESIGNATED_INITIALIZER;
 
-#define DESIGNATED_INITIALIZER_EXCEPTION_BODY_BEGIN							\
-	_Pragma("clang diagnostic push")										\
-	_Pragma("clang diagnostic ignored \"-Wobjc-designated-initializers\"")
-
-#define DESIGNATED_INITIALIZER_EXCEPTION_BODY_END	\
-	_Pragma("clang diagnostic pop")
-
-#define DESIGNATED_INITIALIZER_EXCEPTION_BODY			\
-	DESIGNATED_INITIALIZER_EXCEPTION_BODY_BEGIN			\
-														\
-	- (instancetype)init								\
-	{													\
-		DESIGNATED_INITIALIZER_EXCEPTION				\
-														\
-		return nil;										\
-	}													\
-														\
-	DESIGNATED_INITIALIZER_EXCEPTION_BODY_END
-
-#define ClassWithDesignatedInitializerInitMethod	DESIGNATED_INITIALIZER_EXCEPTION_BODY
-
-@interface NSObject (TXObjectHelper)
-- (void)preferencesChanged;
-
-- (void)prepareInitialState;
-- (void)prepareForApplicationTermination;
-- (void)prepareForPermanentDestruction;
+- (void)start;
+- (void)stop;
 @end
 
 NS_ASSUME_NONNULL_END

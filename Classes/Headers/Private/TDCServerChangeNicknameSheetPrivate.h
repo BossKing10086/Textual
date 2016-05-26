@@ -36,9 +36,13 @@
 
  *********************************************************************** */
 
+#import "TDCSheetBasePrivate.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TDCServerChangeNicknameSheet : TDCSheetBase
+@property (readonly, copy) NSString *clientId;
+
 - (instancetype)initWithNickname:(NSString *)nickname onClient:(IRCClient *)client NS_DESIGNATED_INITIALIZER;
 
 - (void)start;

@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol TDChannelPropertiesSheetDelegate <NSObject>
 @required
 
-- (void)channelPropertiesSheetOnOK:(TDChannelPropertiesSheet *)sender;
+- (void)channelPropertiesSheetOnOk:(TDChannelPropertiesSheet *)sender;
 - (void)channelPropertiesSheetWillClose:(TDChannelPropertiesSheet *)sender;
 @end
 

@@ -56,7 +56,7 @@
 @class TDCNicknameColorSheet;
 @class TDCPreferencesController;
 @class TDCPreferencesSoundWrapper;
-@class TDCProgressInformationSheet;
+@class TDCProgressIndicatorSheet;
 @class TDCServerChangeNicknameSheet;
 @class TDCServerChannelListDialog;
 @class TDCServerHighlightListSheet;
@@ -159,8 +159,6 @@
 #import "IRCExtrasPrivate.h"
 #import "IRCISupportInfoPrivate.h"
 // #import "IRCMessageBatchPrivate.h"
-#import "IRCMessagePrivate.h"
-#import "IRCTimerCommand.h"
 #import "IRCTimerCommandPrivate.h"
 #import "IRCTreeItemPrivate.h"
 #import "IRCUserPrivate.h"
@@ -190,7 +188,7 @@
 #import "TDCNicknameColorSheetPrivate.h"
 #import "TDCPreferencesControllerPrivate.h"
 #import "TDCPreferencesSoundWrapperPrivate.h"
-#import "TDCProgressInformationSheetPrivate.h"
+#import "TDCProgressIndicatorSheetPrivate.h"
 #import "TDCServerChangeNicknameSheetPrivate.h"
 #import "TDCServerChannelListDialogPrivate.h"
 #import "TDCServerHighlightListSheetPrivate.h"
@@ -232,7 +230,7 @@
 #import "TPCResourceManagerPrivate.h"
 #import "TPCThemeControllerPrivate.h"
 #import "TPCThemeSettingsPrivate.h"
-#import "TVCContentNavigationOutlineView.h"
+#import "TVCContentNavigationOutlineViewPrivate.h"
 #import "TVCDockIconPrivate.h"
 #import "TVCImageURLoaderPrivate.h"
 #import "TVCLogControllerHistoricLogFilePrivate.h"

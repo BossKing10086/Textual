@@ -35,6 +35,8 @@
 
  *********************************************************************** */
 
+#import "TDCSheetBasePrivate.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TDCHighlightEntrySheet : TDCSheetBase
@@ -46,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol TDCHighlightEntrySheetDelegate <NSObject>
 @required
 
-- (void)highlightEntrySheetOnOK:(TDCHighlightEntrySheet *)sender;
+- (void)highlightEntrySheet:(TDCHighlightEntrySheet *)sender onOk:(IRCHighlightMatchCondition *)config;
 - (void)highlightEntrySheetWillClose:(TDCHighlightEntrySheet *)sender;
 @end
 

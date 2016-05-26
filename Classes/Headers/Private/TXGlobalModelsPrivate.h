@@ -35,6 +35,8 @@
 
  *********************************************************************** */
 
+NS_ASSUME_NONNULL_BEGIN
+
 TEXTUAL_EXTERN NSDateFormatter *TXSharedISOStandardDateFormatter(void);
 
 // Pass dateTime through NSDateFormatter with style NSDateFormatterLongStyle and
@@ -43,3 +45,5 @@ TEXTUAL_EXTERN NSString  * _Nullable TXFormatDateTimeStringToCommonFormat(id dat
 
 /* Grand Central Dispatch */
 TEXTUAL_EXTERN void XRPerformBlockOnSharedMutableSynchronizationDispatchQueue(dispatch_block_t block);
+
+NS_ASSUME_NONNULL_END

@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, nullable) NSImage *outlineViewDefaultDisclosureTriangle;
 @property (nonatomic, copy, nullable) NSImage *outlineViewAlternateDisclosureTriangle;
 
-- (id)userInterfaceObjects;
+- (__kindof TVCServerListSharedUserInterface *)userInterfaceObjects;
 - (nullable NSVisualEffectView *)visualEffectView;
 - (nullable TVCServerListMavericksUserInterfaceBackground *)backgroundView;
 

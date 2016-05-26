@@ -36,6 +36,8 @@
 
  *********************************************************************** */
 
+#import "TDCSheetBasePrivate.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSUInteger, TDCServerPropertiesSheetNavigationSelection) {
@@ -54,7 +56,7 @@ typedef NS_ENUM(NSUInteger, TDCServerPropertiesSheetNavigationSelection) {
 @protocol TDCServerPropertiesSheetDelegate <NSObject>
 @required
 
-- (void)serverPropertiesSheetOnOK:(TDCServerPropertiesSheet *)sender;
+- (void)serverPropertiesSheetOnOk:(TDCServerPropertiesSheet *)sender;
 - (void)serverPropertiesSheetWillClose:(TDCServerPropertiesSheet *)sender;
 
 #if TEXTUAL_BUILT_WITH_ICLOUD_SUPPORT == 1
